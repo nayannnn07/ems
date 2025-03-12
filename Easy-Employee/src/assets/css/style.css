@@ -251,7 +251,6 @@ ol {
     display: none; /* Hide the large logo on small screens */
   }
 }
-
 /* Login Page */
 /* General container */
 .login-container {
@@ -259,172 +258,294 @@ ol {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to right, #6a3de8, #5e35b1);
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    #f5f7fa 0%,
+    #e4e8f0 100%
+  ); /* Gradient background */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Login Box */
 .login-box {
   display: flex;
-  width: 800px;
-  height: 450px;
+  width: 1050px;
+  height: 650px;
+  max-width: 100%;
   background: #ffffff;
   border-radius: 20px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 10px 25px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   position: relative;
+  margin: 0 auto;
 }
 
 /* Left Side */
 .login-left {
-  flex: 0.4;
-  background: #5e35b1;
+  flex: 1;
+  background: linear-gradient(
+    135deg,
+    #1c144c 0%,
+    #2d1f6d 100%
+  ); /* Gradient background */
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 40px;
   text-align: center;
   border-radius: 0 70px 70px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative circles */
+.decoration-circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+}
+
+.circle-2 {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  right: -50px;
+}
+
+.circle-3 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  left: 30%;
+  transform: translateY(-50%);
+}
+
+.left-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
 }
 
 .login-left h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #ffffff, #e0e0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .login-left p {
-  font-size: 0.9rem;
-  margin-bottom: 30px;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
   opacity: 0.9;
-  line-height: 1.4;
+  line-height: 1.6;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.toggle-btn {
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-  padding: 8px 30px;
-  border-radius: 5px;
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+  align-items: flex-start;
+  padding-left: 20px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+  font-size: 1.05rem;
+  transition: transform 0.3s;
+}
+
+.feature-item:hover {
+  transform: translateX(5px);
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
   font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-  text-transform: uppercase;
-}
-
-.toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
 /* Right Side */
 .login-right {
-  flex: 0.6;
-  padding: 40px;
+  flex: 1;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f8fafc 100%
+  ); /* Subtle gradient */
+  position: relative;
+}
+
+.login-right::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0f0f0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.login-right > * {
+  position: relative;
+  z-index: 1;
 }
 
 .login-right h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #1c144c;
+  position: relative;
 }
 
-.social-login {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
+.login-right h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #1c144c, #4a3cb7);
+  border-radius: 3px;
 }
 
-.social-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid #ddd;
-  border-radius: 50%;
+/* Logo container in the right section */
+.logo-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: 0.3s;
-  background: white;
-  color: #666;
-  font-size: 1rem;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
-.social-btn:hover {
-  background: #f5f5f5;
-}
-
-.google {
-  color: #db4437;
-}
-
-.facebook {
-  color: #3b5998;
-}
-
-.linkedin {
-  color: #0077b5;
+.company-logo {
+  height: 120px; /* Increased logo size */
+  width: auto;
+  max-width: 320px; /* Increased max width */
+  object-fit: contain;
 }
 
 .login-form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
+  /* background: white; */
+  padding: 25px;
+  /* border-radius: 12px; */
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05); */
+  /* border: 1px solid rgba(0, 0, 0, 0.03); */
+}
+
+.input-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
 }
 
 .login-form input {
   width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 15px;
-  border: 1px solid #eee;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  background-color: #f5f5f5;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f8f8f8;
+  transition: all 0.3s;
 }
 
 .login-form input:focus {
   outline: none;
-  border-color: #5e35b1;
-}
-
-.forgot-password {
-  align-self: flex-end;
-  font-size: 0.85rem;
-  color: #5e35b1;
-  text-decoration: none;
-  margin-bottom: 10px;
-}
-
-.forgot-password:hover {
-  text-decoration: underline;
+  border-color: #1c144c;
+  box-shadow: 0 0 0 3px rgba(28, 20, 76, 0.1);
 }
 
 .submit-btn {
   width: 100%;
-  background: #5e35b1;
+  background: linear-gradient(to right, #1c144c, #2d1f6d); /* Gradient button */
   color: white;
-  padding: 12px;
+  padding: 16px;
   border: none;
-  border-radius: 5px;
-  font-size: 0.9rem;
+  border-radius: 8px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
-  margin-top: 5px;
-  text-transform: uppercase;
+  margin-top: 10px;
 }
 
 .submit-btn:hover {
-  background: #4527a0;
+  background: linear-gradient(to right, #2d1f6d, #3a2a8a);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(28, 20, 76, 0.2);
+}
+
+.login-footer {
+  margin-top: 30px;
+  font-size: 0.8rem;
+  color: #777;
+  text-align: center;
 }
 
 /* Responsive */
+@media (max-width: 992px) {
+  .login-box {
+    width: 90%;
+    max-width: 800px;
+    height: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .login-box {
     flex-direction: column;
@@ -435,15 +556,35 @@ ol {
 
   .login-left {
     border-radius: 20px 20px 0 0;
-    padding: 30px 20px;
+    padding: 40px 20px;
   }
 
   .login-right {
-    padding: 30px 20px;
+    padding: 40px 20px;
   }
 
-  .toggle-btn {
-    width: auto;
+  .login-left p {
+    max-width: 100%;
+  }
+
+  .company-logo {
+    height: 100px;
+    max-width: 260px;
+  }
+
+  .circle-1 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .circle-2 {
+    width: 150px;
+    height: 150px;
+  }
+
+  .circle-3 {
+    width: 100px;
+    height: 100px;
   }
 }
 /* 3.2 Form */
@@ -2678,15 +2819,25 @@ h6 .badge {
 .dropdown-menu a {
   font-size: 13px;
 }
+/* Dropdown Title Styling */
 .dropdown-menu .dropdown-title {
   text-transform: uppercase;
-  font-size: 10px;
-  letter-spacing: 1.5px;
+  font-size: 12px; /* Slightly larger for better readability */
+  letter-spacing: 1.8px; /* Improved spacing for a sleek look */
   font-weight: 700;
-  color: #191d21 !important;
-  padding: 10px 20px;
-  line-height: 20px;
-  color: #98a6ad;
+  color: #343a40 !important; /* Darker color for better contrast */
+  padding: 12px 20px; /* More padding for a balanced look */
+  line-height: 22px;
+  background-color: #f8f9fa; /* Light gray background for subtle distinction */
+  border-bottom: 1px solid #dee2e6; /* Adds a separator for better structure */
+  border-radius: 4px 4px 0 0; /* Soft rounded corners at the top */
+}
+
+/* Hover Effect for Better UI */
+.dropdown-menu .dropdown-title:hover {
+  color: #007bff !important; /* Adds a slight blue hover effect */
+  background-color: #e9ecef; /* Slight highlight on hover */
+  transition: all 0.3s ease-in-out;
 }
 .dropdown-menu.dropdown-menu-sm a {
   font-size: 14px;
