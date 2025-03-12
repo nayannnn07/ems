@@ -1,63 +1,119 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-
+import React from "react";
+import { useSelector } from "react-redux";
+import CountsCard from "./CountsCard";
 
 const Employee = () => {
-  const {user} = useSelector(state => state.authSlice);
-  
+  const { user } = useSelector((state) => state.authSlice);
+
+  // Static Team Data
+  const team = [
+    { name: "David", role: "Software Engineer" },
+    { name: "Eve", role: "Project Manager" },
+    { name: "Frank", role: "QA Analyst" },
+  ];
+
   return (
-    <div className="">
-    <section className="section">
+    <div className="container mt-3">
+      <section className="section">
+        {/* Welcome Message */}
+        <div className="card">
+          <div className="card-header d-flex justify-content-between">
+            <h4>Welcome {user?.name}</h4>
+          </div>
+        </div>
+
+        {/* Leave Status Section */}
+        <div className="card mt-3">
+          <div className="card-body">
+            <h2 className="text-center">Leave Status</h2>
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <CountsCard icon="fa-calendar" title="Total Leave" count="8" />
+              <CountsCard icon="fa-check" title="Approved" count="5" />
+              <CountsCard icon="fa-times" title="Rejected" count="2" />
+            </div>
+          </div>
+        </div>
+
+        {/* Side by Side Cards (Attendance & Team Members) */}
+        <div className="row mt-3">
+          {/* Attendance Card */}
+          <div className="col-md-6">
             <div className="card">
-              <div className="card-header d-flex justify-content-between">
-                <h4>Welcome {user?.name}</h4>
+              <div className="card-body text-center">
+                <h4>Attendance</h4>
+                <div className="d-flex justify-content-center gap-4 mt-3">
+                  <div>
+                    <div
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
+                        backgroundColor: "#28a745",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      45
+                    </div>
+                    <p>Present</p>
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
+                        backgroundColor: "#dc3545",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      15
+                    </div>
+                    <p>Absent</p>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
 
+          {/* Team Members Card */}
+          <div className="col-md-6">
             <div className="card">
-                  <div className="card-body row">
-                    <div className="col-md-3 ">
-                        <img className='img-fluid img-thumbnail' src={user.image} alt="" />
+              <div className="card-body">
+                <h4 className="text-center">Team Members</h4>
+                <div className="card p-3">
+                  {team.map((member, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "10px",
+                        borderBottom:
+                          index !== team.length - 1 ? "1px solid #ddd" : "none",
+                      }}
+                    >
+                      <span>{member.name}</span>
+                      <span style={{ fontWeight: "bold" }}>{member.role}</span>
                     </div>
-                    <div className="col-md-9">
-                       <table className='table'>
-                            <tbody>
-                                <tr>
-                                    <th>Name</th>
-                                    <td>{user.name}</td>
-                                </tr>
-                                <tr>
-                                    <th>Username</th>
-                                    <td>{user.username}</td>
-                                </tr>
-                                <tr>
-                                    <th>Email</th>
-                                    <td>{user.email}</td>
-                                </tr>
-                                <tr>
-                                    <th>Usertype</th>
-                                    <td>{user.type}</td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <td>{user.status}</td>
-                                </tr>
-                                <tr>
-                                    <th>Mobile</th>
-                                    <td>{user.mobile}</td>
-                                </tr>
-                                <tr>
-                                    <th>Address</th>
-                                    <td>{user.address}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                  </div>
-                </div>   
-    </section>
-  </div>
-  )
-}
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
 
 export default Employee;
