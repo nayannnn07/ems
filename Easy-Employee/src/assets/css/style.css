@@ -563,28 +563,8 @@ ol {
     padding: 40px 20px;
   }
 
-  .login-left p {
-    max-width: 100%;
-  }
-
-  .company-logo {
-    height: 100px;
-    max-width: 260px;
-  }
-
-  .circle-1 {
-    width: 200px;
-    height: 200px;
-  }
-
-  .circle-2 {
-    width: 150px;
-    height: 150px;
-  }
-
-  .circle-3 {
-    width: 100px;
-    height: 100px;
+  .toggle-btn {
+    width: auto;
   }
 }
 /* 3.2 Form */
@@ -2819,25 +2799,15 @@ h6 .badge {
 .dropdown-menu a {
   font-size: 13px;
 }
-/* Dropdown Title Styling */
 .dropdown-menu .dropdown-title {
   text-transform: uppercase;
-  font-size: 12px; /* Slightly larger for better readability */
-  letter-spacing: 1.8px; /* Improved spacing for a sleek look */
+  font-size: 10px;
+  letter-spacing: 1.5px;
   font-weight: 700;
-  color: #343a40 !important; /* Darker color for better contrast */
-  padding: 12px 20px; /* More padding for a balanced look */
-  line-height: 22px;
-  background-color: #f8f9fa; /* Light gray background for subtle distinction */
-  border-bottom: 1px solid #dee2e6; /* Adds a separator for better structure */
-  border-radius: 4px 4px 0 0; /* Soft rounded corners at the top */
-}
-
-/* Hover Effect for Better UI */
-.dropdown-menu .dropdown-title:hover {
-  color: #007bff !important; /* Adds a slight blue hover effect */
-  background-color: #e9ecef; /* Slight highlight on hover */
-  transition: all 0.3s ease-in-out;
+  color: #191d21 !important;
+  padding: 10px 20px;
+  line-height: 20px;
+  color: #98a6ad;
 }
 .dropdown-menu.dropdown-menu-sm a {
   font-size: 14px;
