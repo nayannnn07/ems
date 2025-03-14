@@ -62,17 +62,13 @@ const Navigation = () => {
               data-toggle="dropdown"
               className="nav-link dropdown-toggle nav-link-lg nav-link-user"
             >
-              <img alt="image" src={image} className="rounded-circle mr-1" />
               <div className="d-sm-none d-lg-inline-block">Hi, {name}</div>
             </a>
             <div className="dropdown-menu dropdown-menu-right">
               <div className="dropdown-title">
                 Logged in at {new Date().toLocaleTimeString()}
               </div>
-              <NavLink
-                to="features-profile.html"
-                className="dropdown-item has-icon mt-2"
-              >
+              <NavLink to="/profile" className="dropdown-item has-icon mt-2">
                 <i className="far fa-user"></i> Profile
               </NavLink>
 

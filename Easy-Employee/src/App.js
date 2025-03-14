@@ -13,6 +13,7 @@ import Loading from "./components/Loading";
 import { useAutoLogin } from "./hooks/useAutoLogin";
 import Employees from "./pages/employee/Employees";
 import Admins from "./pages/admin/Admins";
+import Profile from "./components/Employees/Profile";
 import Teams from "./pages/team/Teams";
 import AddUser from "./pages/user/AddUser";
 import AddTeam from "./pages/team/AddTeam";
@@ -86,6 +87,9 @@ const App = () => {
       <EmployeeRoute exact path="/role">
         <Role />
       </EmployeeRoute>
+      <EmployeeRoute exact path="/profile">
+        <Profile />
+      </EmployeeRoute>
       <GuestRoute exact path="/">
         <Login />
       </GuestRoute>
@@ -103,6 +107,9 @@ const App = () => {
       </AdminRoute>
       <LeaderRoute exact path="/members">
         <Members />
+      </LeaderRoute>
+      <LeaderRoute exact path="/profile">
+        <Profile />
       </LeaderRoute>
       <AdminRoute exact path="/admins">
         <Admins />

@@ -17,7 +17,7 @@ const Employee = () => {
     <ul className="sidebar-menu">
       <li>
         <NavLink className="nav-link" to="/home">
-          <i className="fas fa-fire"></i> <span>Dashboard</span>
+          <i className="fas fa-home"></i> <span>Dashboard</span>
         </NavLink>
       </li>
       <li>
@@ -42,7 +42,7 @@ const Employee = () => {
       </li>
       <li>
         <NavLink className="nav-link" to="/task">
-          <i className="fas fa-book"></i> <span>Task</span>
+          <i className="fas fa-tasks"></i> <span>Task</span>
         </NavLink>
       </li>
 
@@ -52,22 +52,22 @@ const Employee = () => {
         </NavLink>
       </li>
 
-      <li className="menu-header">Settings</li>
+      {/* <li className="menu-header">Settings</li>
       <li>
         <NavLink className="nav-link" to="/contact">
           <i className="fab fa-teamspeak"></i> <span>Contact me</span>
         </NavLink>
       </li>
       <li>
-        <NavLink className="nav-link" to="/about">
-          <i className="fas fa-info-circle"></i> <span>About me</span>
+        <NavLink className="nav-link" to="/profile">
+          <i className="fas fa-info-circle"></i> <span>Profile</span>
         </NavLink>
       </li>
       <li>
         <NavLink onClick={logout} className="nav-link" to="/home">
           <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
         </NavLink>
-      </li>
+      </li> */}
     </ul>
   );
 };

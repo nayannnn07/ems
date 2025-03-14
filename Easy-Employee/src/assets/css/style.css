@@ -251,6 +251,118 @@ ol {
     display: none; /* Hide the large logo on small screens */
   }
 }
+
+/* Leave Application page */
+/* Container */
+.leave-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Section */
+.leave-section {
+  padding: 20px;
+}
+
+/* Card Header */
+.leave-header h4 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+/* Table */
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.leave-table th,
+.leave-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.leave-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.leave-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Status Styling */
+.status {
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.approved {
+  color: #155724;
+  background-color: #d4edda;
+}
+
+.pending {
+  color: #856404;
+  background-color: #fff3cd;
+}
+
+.rejected {
+  color: #721c24;
+  background-color: #f8d7da;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.approve-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.approve-btn:hover {
+  background-color: #218838;
+}
+
+.reject-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reject-btn:hover {
+  background-color: #c82333;
+}
+
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 /* Login Page */
 /* General container */
 .login-container {
@@ -567,7 +679,6 @@ ol {
     width: auto;
   }
 }
-/* Admin Dashboard */
 .admin-container {
   display: flex;
   flex-direction: column;
@@ -598,7 +709,7 @@ ol {
 
 /* Individual Chart Items */
 .chart-item {
-  background: white;  
+  background: white;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   padding: 0;
@@ -607,14 +718,107 @@ ol {
   overflow: hidden;
 }
 
-
-
 /* Chart Wrapper to Ensure Proper Sizing */
 .chart-wrapper {
   width: 100%;
   height: 100%;
   position: relative;
   background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Leave Applications Card Styling */
+.leave-applications-card {
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.leave-applications-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1c144c;
+  margin-bottom: 2rem;
+}
+
+.leave-status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.leave-status-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.leave-status-card:hover {
+  transform: translateY(-2px);
+}
+
+.leave-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  width: 24px;
+  text-align: center;
+}
+
+.leave-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leave-info h6 {
+  font-weight: 600;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.leave-info p {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+/* Status-specific styling */
+.leave-status-card.pending {
+  background-color: #fff8e6;
+  border-left: 4px solid #ffc107;
+}
+
+.leave-status-card.pending .leave-icon {
+  color: #ffc107;
+}
+
+.leave-status-card.approved {
+  background-color: #e6f7ee;
+  border-left: 4px solid #28a745;
+}
+
+.leave-status-card.approved .leave-icon {
+  color: #28a745;
+}
+
+.leave-status-card.rejected {
+  background-color: #feebeb;
+  border-left: 4px solid #dc3545;
+}
+
+.leave-status-card.rejected .leave-icon {
+  color: #dc3545;
 }
 
 /* Card styling for charts */
@@ -640,6 +844,7 @@ ol {
   width: 100%;
   padding: 20px;
 }
+
 /* Attendance List Styling */
 .attendance-list {
   list-style: none;
@@ -676,8 +881,26 @@ ol {
   color: #45b870;
 }
 
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .charts-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
+@media (max-width: 768px) {
+  .cards-container {
+    flex-wrap: wrap;
+  }
 
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-item {
+    height: 400px;
+  }
+}
 
 /* 3.2 Form */
 .form-control,
@@ -2930,7 +3153,6 @@ h6 .badge {
   color: #007bff !important; /* Adds a slight blue hover effect */
   background-color: #e9ecef; /* Slight highlight on hover */
   transition: all 0.3s ease-in-out;
-
 }
 
 .dropdown-menu.dropdown-menu-sm a {

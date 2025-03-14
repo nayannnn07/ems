@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCounts } from "../../http";
@@ -49,36 +51,36 @@ const Admin = () => {
 
         {/* Leave Applications Overview */}
         <div className="chart-item">
-          <div className="chart-wrapper flex items-center justify-center">
-            <div className="card shadow-lg p-6 w-full h-full flex flex-col gap-5 items-center justify-center">
-              <h5 className="text-2xl font-bold text-[#1c144c]">
-                Leave Applications
-              </h5>
+          <div className="chart-wrapper">
+            <div className="leave-applications-card">
+              <h5 className="leave-applications-title">Leave Applications</h5>
 
-              {/* Pending Leaves */}
-              <div className="leave-status-card pending">
-                <i className="fa fa-clock leave-icon"></i>
-                <div className="leave-info">
-                  <h6>Pending</h6>
-                  <p>5</p>
+              <div className="leave-status-container">
+                {/* Pending Leaves */}
+                <div className="leave-status-card pending">
+                  <i className="fa fa-clock leave-icon"></i>
+                  <div className="leave-info">
+                    <h6>Pending</h6>
+                    <p>5</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Approved Leaves */}
-              <div className="leave-status-card approved">
-                <i className="fa fa-check-circle leave-icon"></i>
-                <div className="leave-info">
-                  <h6>Approved</h6>
-                  <p>4</p>
+                {/* Approved Leaves */}
+                <div className="leave-status-card approved">
+                  <i className="fa fa-check-circle leave-icon"></i>
+                  <div className="leave-info">
+                    <h6>Approved</h6>
+                    <p>4</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Rejected Leaves */}
-              <div className="leave-status-card rejected">
-                <i className="fa fa-times-circle leave-icon"></i>
-                <div className="leave-info">
-                  <h6>Rejected</h6>
-                  <p>3</p>
+                {/* Rejected Leaves */}
+                <div className="leave-status-card rejected">
+                  <i className="fa fa-times-circle leave-icon"></i>
+                  <div className="leave-info">
+                    <h6>Rejected</h6>
+                    <p>3</p>
+                  </div>
                 </div>
               </div>
             </div>

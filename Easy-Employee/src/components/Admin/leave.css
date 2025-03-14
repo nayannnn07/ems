@@ -1,0 +1,109 @@
+/* Container */
+.leave-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Section */
+.leave-section {
+  padding: 20px;
+}
+
+/* Card Header */
+.leave-header h4 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+/* Table */
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.leave-table th,
+.leave-table td {
+  padding: 12px;
+  border: 2px solid #a09797;
+  text-align: left;
+}
+
+.leave-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.leave-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Status Styling */
+.status {
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.approved {
+  color: #155724;
+  background-color: #d4edda;
+}
+
+.pending {
+  color: #856404;
+  background-color: #fff3cd;
+}
+
+.rejected {
+  color: #721c24;
+  background-color: #f8d7da;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.approve-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.approve-btn:hover {
+  background-color: #218838;
+}
+
+.reject-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reject-btn:hover {
+  background-color: #c82333;
+}
+
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

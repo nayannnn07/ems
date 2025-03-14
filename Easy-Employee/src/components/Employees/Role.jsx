@@ -2,12 +2,14 @@ import React, { useState } from "react";
 
 const AssignTask = () => {
   const [selectedRole, setSelectedRole] = useState("");
+  const [selectedPerson, setSelectedPerson] = useState("");
   const [task, setTask] = useState("");
 
   const roles = ["Manager", "Developer", "Designer", "Tester"];
+  const people = ["Alice", "Bob", "Charlie", "prajwol"]; // Example people
 
   const assignTask = () => {
-    alert(`Task "${task}" assigned to ${selectedRole}`);
+    alert(`Task "${task}" assigned to ${selectedPerson} (${selectedRole})`);
   };
 
   return (
@@ -19,8 +21,10 @@ const AssignTask = () => {
           </div>
         </div>
 
-        <div className="d-flex justify-content-center w-100">
-          <div className="col">
+        <div className="d-flex flex-column align-items-center w-100">
+          {/* Assign To Role */}
+          <div className="col mb-3">
+            <label className="form-label">Assign To (Role)</label>
             <select
               className="form-control select2"
               value={selectedRole}
@@ -35,7 +39,27 @@ const AssignTask = () => {
             </select>
           </div>
 
-          <div className="col">
+          {/* Assign To Person */}
+          <div className="col mb-3">
+            <label className="form-label">Assign To (Person)</label>
+            <select
+              className="form-control select2"
+              value={selectedPerson}
+              onChange={(e) => setSelectedPerson(e.target.value)}
+              disabled={!selectedRole} // Disable until a role is selected
+            >
+              <option value="">Select Person</option>
+              {people.map((person) => (
+                <option key={person} value={person}>
+                  {person}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Task Input */}
+          <div className="col mb-3">
+            <label className="form-label">Task</label>
             <input
               type="text"
               className="form-control"
@@ -45,9 +69,16 @@ const AssignTask = () => {
             />
           </div>
 
-          <button onClick={assignTask} className="btn btn-lg btn-primary col">
-            Assign Task
-          </button>
+          {/* Assign Button */}
+          <div className="form-group text-center col-md-12">
+            <button
+              className="btn btn-primary btn-lg"
+              type="submit"
+              style={{ width: "30vh" }}
+            >
+              Assign task
+            </button>
+          </div>
         </div>
       </section>
     </div>

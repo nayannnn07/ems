@@ -2,29 +2,37 @@ import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import CountsCard from "../../../components/dashboard/CountsCard";
 import RowMember from "../../../components/rows/row-member";
-import { getFreeEmployees, getTeam, getTeamMembers, getFreeLeaders } from "../../../http";
+import {
+  getFreeEmployees,
+  getTeam,
+  getTeamMembers,
+  getFreeLeaders,
+} from "../../../http";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { setTeam, setTeamInformation } from '../../../store/team-slice';
-import { setFreeEmployees, setTeamMembers,setFreeLeaders } from '../../../store/user-slice';
+import { setTeam, setTeamInformation } from "../../../store/team-slice";
+import {
+  setFreeEmployees,
+  setTeamMembers,
+  setFreeLeaders,
+} from "../../../store/user-slice";
 import LeaderModal from "./modal/LeaderModal";
 import LeadersModal from "./modal/LeadersModal";
 import MembersModal from "./modal/MembersModal";
 
-
 const Team = () => {
   const dispatch = useDispatch();
-  const { team } = useSelector(state => state.teamSlice);
-  const { teamMembers } = useSelector(state => state.userSlice);
+  const { team } = useSelector((state) => state.teamSlice);
+  const { teamMembers } = useSelector((state) => state.userSlice);
 
   const [loading, setLoading] = useState(true);
   const [freeApiCalled, setFreeApiCalled] = useState(false);
   const [freeLeaderCalled, setFreeLeaderApiCalled] = useState(false);
   const [membersLoading, setMembersLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [showLeaderModal,setShowLeaderModal] = useState(false);
-  const [showLeadersModal,setShowLeadersModal] = useState(false);
- 
+  const [showLeaderModal, setShowLeaderModal] = useState(false);
+  const [showLeadersModal, setShowLeadersModal] = useState(false);
+
   const { id } = useParams();
   useEffect(() => {
     (async () => {
@@ -36,11 +44,11 @@ const Team = () => {
       }
       const res1 = await getTeamMembers(id);
       if (res1.success) {
-        dispatch(setTeamMembers(res1.data))
+        dispatch(setTeamMembers(res1.data));
         setMembersLoading(false);
       }
     })();
-  }, [id])
+  }, [id]);
 
   const modalAction = async () => {
     setShowModal(showModal ? false : true);
@@ -51,7 +59,7 @@ const Team = () => {
       }
       setFreeApiCalled(true);
     }
-  }
+  };
 
   const modalLeadersAction = async () => {
     setShowLeadersModal(showLeadersModal ? false : true);
@@ -62,45 +70,70 @@ const Team = () => {
       }
       setFreeLeaderApiCalled(true);
     }
-  }
+  };
 
-  const modalLeaderAction = () =>
-  {
+  const modalLeaderAction = () => {
     setShowLeaderModal(showLeaderModal ? false : true);
-  }
+  };
 
   return (
     <>
-        {showModal && <MembersModal close={modalAction}/>}
-        {showLeaderModal && <LeaderModal close={modalLeaderAction}/> }
-        {showLeadersModal && <LeadersModal close={modalLeadersAction}/>}
+      {showModal && <MembersModal close={modalAction} />}
+      {showLeaderModal && <LeaderModal close={modalLeaderAction} />}
+      {showLeadersModal && <LeadersModal close={modalLeadersAction} />}
 
       <div className="main-content">
         <section className="section">
-          {
-            team &&
+          {team && (
             <>
               <div className="section-header  d-flex justify-content-between">
                 <h1>Team</h1>
                 <div>
-                  <NavLink to={`/editteam/${id}`} className='btn btn-primary mr-4'>Edit Team</NavLink>
-                  <button onClick={modalAction} className='btn btn-primary'>Add Member</button>
+                  <NavLink
+                    to={`/editteam/${id}`}
+                    className="btn btn-primary mr-4"
+                  >
+                    Edit Team
+                  </NavLink>
+                  <button onClick={modalAction} className="btn btn-primary">
+                    Add Member
+                  </button>
                 </div>
               </div>
               <div className="row">
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
+                <CountsCard
+                  title="Total Employee"
+                  icon="fa-user"
+                  count={team.information.employee}
+                />
+                <CountsCard
+                  title="Total Employee"
+                  icon="fa-user"
+                  count={team.information.employee}
+                />
+                <CountsCard
+                  title="Total Employee"
+                  icon="fa-user"
+                  count={team.information.employee}
+                />
+                <CountsCard
+                  title="Total Employee"
+                  icon="fa-user"
+                  count={team.information.employee}
+                />
               </div>
 
               <div className="card">
                 <div className="card-body row">
                   <div className="col-md-3 ">
-                    <img className='img-fluid img-thumbnail' src={team.image} alt="" />
+                    <img
+                      className="img-fluid img-thumbnail"
+                      src={team.image}
+                      alt=""
+                    />
                   </div>
                   <div className="col-md-9">
-                    <table className='table'>
+                    <table className="table">
                       <tbody>
                         <tr>
                           <th>Name</th>
@@ -113,19 +146,24 @@ const Team = () => {
                         <tr>
                           <th>Leader</th>
                           <td>
-                            { 
-                              team.leader ?
-                                <button  className='badge btn badge-primary' onClick={modalLeaderAction} style={{padding:'0px 10px 0px 0px'}}>
-                                <img src={team.leader.image} className='avatar avatar-sm mr-2' alt="Person" width="96" height="96"/>
+                            {team.leader ? (
+                              <button
+                                className="badge btn badge-primary"
+                                onClick={modalLeaderAction}
+                                style={{ padding: "0px 10px 0px 0px" }}
+                              >
                                 {team.leader.name}
-                            </button>
-                            :
-                            <button onClick={modalLeadersAction} className='badge badge-light btn' style={{padding:'0px 10px 0px 0px'}}>
-                                <img src='../assets/icons/user.png' className='avatar avatar-sm mr-2' alt="Person"/>
+                              </button>
+                            ) : (
+                              <button
+                                onClick={modalLeadersAction}
+                                className="badge badge-light btn"
+                                style={{ padding: "0px 10px 0px 0px" }}
+                              >
                                 No Leader
-                            </button> 
-                            }
-                        </td>
+                              </button>
+                            )}
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -133,10 +171,9 @@ const Team = () => {
                 </div>
               </div>
             </>
-          }
+          )}
 
-          {
-            !membersLoading &&
+          {!membersLoading && (
             <div className="card">
               <div className="card-header">
                 <h4>All Employees</h4>
@@ -147,7 +184,7 @@ const Team = () => {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Image</th>
+
                         <th>Name</th>
                         <th>Email</th>
                         <th>Mobile</th>
@@ -156,22 +193,27 @@ const Team = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {
-                        !loading && teamMembers && teamMembers.map((data, index) => {
-                          return <RowMember key={index} index={index + 1} data={data} />
-                        })
-
-                      }
+                      {!loading &&
+                        teamMembers &&
+                        teamMembers.map((data, index) => {
+                          return (
+                            <RowMember
+                              key={index}
+                              index={index + 1}
+                              data={data}
+                            />
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
-          }
+          )}
         </section>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Team;

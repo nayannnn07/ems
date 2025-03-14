@@ -4,12 +4,12 @@ const Leader = () => {
     <ul className="sidebar-menu">
       <li>
         <NavLink className="nav-link" to="/home">
-          <i className="fas fa-fire"></i> <span>Dashboard</span>
+          <i className="fas fa-home"></i> <span>Dashboard</span>
         </NavLink>
       </li>
       <li>
         <NavLink className="nav-link" to="/members">
-          <i className="fas fa-fire"></i> <span>Members</span>
+          <i className="fas fa-users"></i> <span>Members</span>
         </NavLink>
       </li>
       <li>
@@ -38,7 +38,7 @@ const Leader = () => {
         </NavLink>
       </li>
 
-      <li className="menu-header">Settings</li>
+      {/* <li className="menu-header">Settings</li>
       <li>
         <NavLink className="nav-link" to="/contact">
           <i className="fab fa-teamspeak"></i> <span>Contact Us</span>
@@ -53,7 +53,7 @@ const Leader = () => {
         <NavLink className="nav-link" to="/home">
           <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
         </NavLink>
-      </li>
+      </li> */}
     </ul>
   );
 };
