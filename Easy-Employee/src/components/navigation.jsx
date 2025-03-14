@@ -65,25 +65,25 @@ const Navigation = () => {
               <img alt="image" src={image} className="rounded-circle mr-1" />
               <div className="d-sm-none d-lg-inline-block">Hi, {name}</div>
             </a>
-              <div className="dropdown-menu dropdown-menu-right">
-                <div className="dropdown-title">
-  Logged in at {new Date().toLocaleTimeString()}
-</div>
-                <NavLink
-                  to="features-profile.html"
-                  className="dropdown-item has-icon"
-                >
-                  <i className="far fa-user"></i> Profile
-                </NavLink>
-                
-                <div className="dropdown-divider"></div>
-                <NavLink
-                  to="/"
-                  onClick={logout}
-                  className="dropdown-item has-icon text-danger"
-                >
-                  <i className="fas fa-sign-out-alt"></i> Logout
-                </NavLink>
+            <div className="dropdown-menu dropdown-menu-right">
+              <div className="dropdown-title">
+                Logged in at {new Date().toLocaleTimeString()}
+              </div>
+              <NavLink
+                to="features-profile.html"
+                className="dropdown-item has-icon mt-2"
+              >
+                <i className="far fa-user"></i> Profile
+              </NavLink>
+
+              <div className="dropdown-divider"></div>
+              <NavLink
+                to="/"
+                onClick={logout}
+                className="dropdown-item has-icon"
+              >
+                <i className="fas fa-sign-out-alt"></i> Logout
+              </NavLink>
             </div>
           </li>
         </ul>

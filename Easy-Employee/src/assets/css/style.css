@@ -567,6 +567,118 @@ ol {
     width: auto;
   }
 }
+/* Admin Dashboard */
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Top Cards Section */
+.cards-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: nowrap;
+}
+
+.cards-container > * {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Charts Section */
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 0 20px;
+}
+
+/* Individual Chart Items */
+.chart-item {
+  background: white;  
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  height: 500px;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+
+/* Chart Wrapper to Ensure Proper Sizing */
+.chart-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: white;
+}
+
+/* Card styling for charts */
+.chart-item .card {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chart content area */
+.chart-item .card > div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Full-Width Section Below Charts */
+.full-width-section {
+  width: 100%;
+  padding: 20px;
+}
+/* Attendance List Styling */
+.attendance-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual Attendance Item */
+.attendance-item {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.1rem;
+}
+
+/* Attendance Rank (Icons) */
+.attendance-rank {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+/* Employee Name */
+.attendance-name {
+  flex: 1;
+  font-weight: 600;
+  color: #1c144c;
+}
+
+/* Attendance Percentage */
+.attendance-percentage {
+  font-weight: bold;
+  color: #45b870;
+}
+
+
+
+
 /* 3.2 Form */
 .form-control,
 .input-group-text,
@@ -2799,16 +2911,28 @@ h6 .badge {
 .dropdown-menu a {
   font-size: 13px;
 }
+/* Dropdown Title Styling */
 .dropdown-menu .dropdown-title {
   text-transform: uppercase;
-  font-size: 10px;
-  letter-spacing: 1.5px;
+  font-size: 12px; /* Slightly larger for better readability */
+  letter-spacing: 1.8px; /* Improved spacing for a sleek look */
   font-weight: 700;
-  color: #191d21 !important;
-  padding: 10px 20px;
-  line-height: 20px;
-  color: #98a6ad;
+  color: #343a40 !important; /* Darker color for better contrast */
+  padding: 12px 20px; /* More padding for a balanced look */
+  line-height: 22px;
+  background-color: #f8f9fa; /* Light gray background for subtle distinction */
+  border-bottom: 1px solid #dee2e6; /* Adds a separator for better structure */
+  border-radius: 4px 4px 0 0; /* Soft rounded corners at the top */
 }
+
+/* Hover Effect for Better UI */
+.dropdown-menu .dropdown-title:hover {
+  color: #007bff !important; /* Adds a slight blue hover effect */
+  background-color: #e9ecef; /* Slight highlight on hover */
+  transition: all 0.3s ease-in-out;
+
+}
+
 .dropdown-menu.dropdown-menu-sm a {
   font-size: 14px;
   letter-spacing: normal;
@@ -2824,8 +2948,8 @@ a.dropdown-item {
 a.dropdown-item:focus,
 a.dropdown-item:active,
 a.dropdown-item.active {
-  background-color: #1c144c;
-  color: #fff !important;
+  /* background-color: #1c144c; */
+  color: black !important;
 }
 
 .dropdown-divider {
