@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 // import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 import "@popperjs/core";
 import "./App.css";
+import './index.css';
 import Loading from "./components/Loading";
 import { useAutoLogin } from "./hooks/useAutoLogin";
 import Employees from "./pages/employee/Employees";

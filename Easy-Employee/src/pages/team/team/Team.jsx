@@ -150,7 +150,7 @@ const Team = () => {
                               <button
                                 className="badge btn badge-primary"
                                 onClick={modalLeaderAction}
-                                style={{ padding: "0px 10px 0px 0px" }}
+                                style={{ padding: "0px 10px 0px 10px" }}
                               >
                                 {team.leader.name}
                               </button>
@@ -158,7 +158,7 @@ const Team = () => {
                               <button
                                 onClick={modalLeadersAction}
                                 className="badge badge-light btn"
-                                style={{ padding: "0px 10px 0px 0px" }}
+                                style={{ padding: "0px 10px 0px 10px" }}
                               >
                                 No Leader
                               </button>

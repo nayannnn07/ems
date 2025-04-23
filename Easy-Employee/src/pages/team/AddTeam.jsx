@@ -40,7 +40,7 @@ const AddTeam = () => {
     <>
       <div className="main-content">
         <section className="section">
-          <HeaderSection title="Add User" />
+          <HeaderSection title="Add Team" />
           <div className="card">
             <div className="card-body pr-5 pl-5 m-1">
               <form className="row" onSubmit={onSubmit}>

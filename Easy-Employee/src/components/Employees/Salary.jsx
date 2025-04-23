@@ -91,17 +91,17 @@ const Salary = () => {
           <section className="section">
             <div className="card">
               <div className="card-header d-flex justify-content-between">
-                <h4>Updated Salary from {salary?.assignedDate}</h4>
+                <h4 >Updated Salary from {salary?.assignedDate}</h4>
               </div>
             </div>
             <div className={`card ${salary ? "" : "d-none"}`}>
               <div className="card-body row">
                 <div className="col-md-3">
-                  <img
+                  {/* <img
                     className="img-fluid img-thumbnail"
                     src={user.image}
                     alt="Employee"
-                  />
+                  /> */}
                 </div>
                 <div className="col-md-9">
                   <table className="table">

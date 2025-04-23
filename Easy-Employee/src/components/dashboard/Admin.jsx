@@ -1,38 +1,66 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCounts } from "../../http";
 import { setCount } from "../../store/main-slice";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import CountsCard from "./CountsCard";
 import PieChart from "../PieChart";
 import BarChart from "../BarChart";
 
 const Admin = () => {
   const dispatch = useDispatch();
+  const [leaveEvents, setLeaveEvents] = useState([]);
 
   useEffect(() => {
     (async () => {
       const res = await getCounts();
       if (res.success) dispatch(setCount(res.data));
     })();
+
+    // 👇 Replace this with your actual fetch call for leave data
+    const approvedLeaves = [
+      {
+        title: "Nayana (Employee)",
+        start: "2025-04-25",
+        end: "2025-04-26",
+        backgroundColor: "#38b000",
+        borderColor: "#38b000",
+      },
+      {
+        title: "Prajwol (Leader)",
+        start: "2025-04-27",
+        end: "2025-04-28",
+        backgroundColor: "#0081a7",
+        borderColor: "#0081a7",
+      },
+      {
+        title: "Aishworya (Employee)",
+        start: "2025-04-23",
+        end: "2025-04-24",
+        backgroundColor: "#38b000",
+        borderColor: "#38b000",
+      },
+    ];
+    setLeaveEvents(approvedLeaves);
   }, [dispatch]);
 
   const { counts } = useSelector((state) => state.mainSlice);
   const { admin, employee, leader, team, present, absent } = counts;
 
-  // Static Attendance Data
   const attendanceStats = [
-    { name: "Alice Johnson", attendancePercentage: 98 },
-    { name: "Bob Smith", attendancePercentage: 95 },
-    { name: "Charlie Brown", attendancePercentage: 92 },
-    { name: "David Williams", attendancePercentage: 88 },
-    { name: "Emily Davis", attendancePercentage: 85 },
+    { name: "Nayana", attendancePercentage: 98 },
+    { name: "Prajwol", attendancePercentage: 95 },
+    { name: "Aishworya", attendancePercentage: 92 },
+    { name: "Rojal", attendancePercentage: 88 },
+    { name: "Sujal", attendancePercentage: 85 },
   ];
 
   return (
     <div className="admin-container">
-      {/* Top Cards Section */}
+      {/* Top Cards */}
       <div className="cards-container">
         <CountsCard title="Total Employee" icon="fa-user" count={employee} />
         <CountsCard title="Total Leader" icon="fa-user" count={leader} />
@@ -40,23 +68,20 @@ const Admin = () => {
         <CountsCard title="Total Team" icon="fa-user" count={team} />
       </div>
 
-      {/* Charts Section */}
+      {/* Charts */}
       <div className="charts-container">
-        {/* Pie Chart */}
         <div className="chart-item">
           <div className="chart-wrapper">
             <PieChart present={present} absent={absent} />
           </div>
         </div>
 
-        {/* Leave Applications Overview */}
+        {/* Leave Status */}
         <div className="chart-item">
           <div className="chart-wrapper">
             <div className="leave-applications-card">
               <h5 className="leave-applications-title">Leave Applications</h5>
-
               <div className="leave-status-container">
-                {/* Pending Leaves */}
                 <div className="leave-status-card pending">
                   <i className="fa fa-clock leave-icon"></i>
                   <div className="leave-info">
@@ -64,8 +89,6 @@ const Admin = () => {
                     <p>5</p>
                   </div>
                 </div>
-
-                {/* Approved Leaves */}
                 <div className="leave-status-card approved">
                   <i className="fa fa-check-circle leave-icon"></i>
                   <div className="leave-info">
@@ -73,8 +96,6 @@ const Admin = () => {
                     <p>4</p>
                   </div>
                 </div>
-
-                {/* Rejected Leaves */}
                 <div className="leave-status-card rejected">
                   <i className="fa fa-times-circle leave-icon"></i>
                   <div className="leave-info">
@@ -95,7 +116,7 @@ const Admin = () => {
         </div>
       </div>
 
-      {/* Employees Attendance Overview */}
+      {/* Attendance List */}
       <div className="full-width-section">
         <div className="card shadow-lg p-4 bg-white">
           <h3 className="text-center text-[#1c144c] font-semibold">
@@ -120,6 +141,21 @@ const Admin = () => {
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+
+      {/* FullCalendar Section */}
+      <div className="full-width-section mt-6">
+        <div className="card shadow-lg p-4 bg-white">
+          <h3 className="text-center text-[#1c144c] font-semibold mb-4">
+            Approved Leave Calendar
+          </h3>
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            events={leaveEvents}
+            height="auto"
+          />
         </div>
       </div>
     </div>

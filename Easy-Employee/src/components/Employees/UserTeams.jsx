@@ -36,7 +36,9 @@ const UserTeams = () => {
             <section className="section">
               <div className="card">
                 <div className="card-header">
-                  <h4>All Teams</h4>
+                  <h4 style={{ fontSize: "24px", fontWeight: 700 }}>
+                    All Teams
+                  </h4>
                 </div>
                 <div className="card-body p-0">
                   <div className="table-responsive">

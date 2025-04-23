@@ -25,18 +25,34 @@ const Leader = () => {
 
   // Static Team Data
   const team = [
-    { name: "Alice", role: "Frontend Developer" },
-    { name: "Bob", role: "Backend Developer" },
-    { name: "Charlie", role: "UI/UX Designer" },
+    { name: "Prajwol", role: "Frontend Developer" },
+    { name: "Sujal", role: "Backend Developer" },
+    { name: "Nayana", role: "UI/UX Designer" },
+    { name: "Rojal", role: "Product Manager" },
+    { name: "Jane", role: "QA Tester" },
+    { name: "Anish", role: "DevOps Engineer" },
+    { name: "Aishworya", role: "Project Manager" },
   ];
 
   return (
     <div className="admin-container">
       {/* Top Cards Section */}
       <div className="cards-container">
-        <CountsCard icon="fa-calendar-alt" title="Total Leave" count="8" />
-        <CountsCard icon="fa-check-circle" title="Approved" count="5" />
-        <CountsCard icon="fa-times-circle" title="Rejected" count="2" />
+        <CountsCard
+          icon="fa-calendar-alt"
+          title="Total Leave Applications"
+          count="8"
+        />
+        <CountsCard
+          icon="fa-check-circle"
+          title="Total Approved Leaves"
+          count="5"
+        />
+        <CountsCard
+          icon="fa-times-circle"
+          title="Total Rejected Leaves"
+          count="2"
+        />
       </div>
 
       {/* Charts Section */}

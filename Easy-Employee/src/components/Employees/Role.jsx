@@ -6,7 +6,7 @@ const AssignTask = () => {
   const [task, setTask] = useState("");
 
   const roles = ["Manager", "Developer", "Designer", "Tester"];
-  const people = ["Alice", "Bob", "Charlie", "prajwol"]; // Example people
+  const people = ["Nayana", "Anish", "Jane", "Prajwol"]; // Example people
 
   const assignTask = () => {
     alert(`Task "${task}" assigned to ${selectedPerson} (${selectedRole})`);
@@ -17,7 +17,7 @@ const AssignTask = () => {
       <section className="section">
         <div className="card">
           <div className="card-header d-flex justify-content-between">
-            <h4>Assign Task</h4>
+            <h4 style={{ fontSize: "24px", fontWeight: 700 }}>Assign Task</h4>
           </div>
         </div>
 

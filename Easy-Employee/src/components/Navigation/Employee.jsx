@@ -22,7 +22,7 @@ const Employee = () => {
       </li>
       <li>
         <NavLink className="nav-link" to="/userTeams">
-          <i className="fas fa-users"></i> <span>Team</span>
+          <i className="fas fa-users"></i> <span>Team Members</span>
         </NavLink>
       </li>
       <li>
@@ -31,15 +31,16 @@ const Employee = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink className="nav-link" to="/applyforleave">
-          <i className="fas fa-pen"></i> <span>Apply For Leave</span>
-        </NavLink>
-      </li>
-      <li>
         <NavLink className="nav-link" to="/userLeaveApplications">
           <i className="fas fa-book"></i> <span>Leave Applications</span>
         </NavLink>
       </li>
+      <li>
+        <NavLink className="nav-link" to="/applyforleave">
+          <i className="fas fa-pen"></i> <span>Apply For Leave</span>
+        </NavLink>
+      </li>
+
       <li>
         <NavLink className="nav-link" to="/task">
           <i className="fas fa-tasks"></i> <span>Task</span>

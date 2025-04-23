@@ -36,7 +36,7 @@ const Admin = () => {
       <li>
         <NavLink className="nav-link" to="/leaves">
           <i className="fas fa-book"></i>
-          <span>Leaves</span>
+          <span>Leave Applications</span>
         </NavLink>
       </li>
       <li>

@@ -21,10 +21,10 @@ const Members = () => {
     <>
       <div className="main-content">
         <section className="section">
-          <HeaderSection title="Members" />
+          <HeaderSection title="Team Members" />
           <div className="card">
             <div className="card-header">
-              <h4>All Members</h4>
+              <h4>All Team Members</h4>
             </div>
             <div className="card-body p-0">
               <div className="table-responsive">

@@ -1,14 +1,25 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import HeaderSection from "../../components/HeaderSection";
 import { applyforleave } from "../../http";
 import Modal from "../../components/modal/Modal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from "react-redux";
+import CountsCard from "../../components/dashboard/CountsCard";
+import { useEffect } from "react";
 
 const ApplyForLeave = () => {
   const { user } = useSelector((state) => state.authSlice);
+  const totalApproved = useSelector((state) => state.leaveSlice.totalApproved);
+
+  const totalEntitled = 15;
+  const remainingLeaves = totalEntitled - totalApproved;
+
+  useEffect(() => {
+    console.log("Total Approved from Redux:", totalApproved);
+  }, [totalApproved]);
+
   const initialState = {
     title: "",
     type: "",
@@ -17,17 +28,15 @@ const ApplyForLeave = () => {
     endDate: "",
     reason: "",
   };
+
   const [formData, setFormData] = useState(initialState);
 
   const inputEvent = (e) => {
-    console.log(formData);
     const { name, value } = e.target;
-    setFormData((old) => {
-      return {
-        ...old,
-        [name]: value,
-      };
-    });
+    setFormData((old) => ({
+      ...old,
+      [name]: value,
+    }));
   };
 
   const onSubmit = async (e) => {
@@ -37,16 +46,12 @@ const ApplyForLeave = () => {
       return toast.error("All Field Required");
 
     const d = new Date();
-
     formData["applicantID"] = user.id;
     formData["appliedDate"] =
       d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
 
-    console.log(formData);
-
     const res = await applyforleave(formData);
     const { success } = res;
-    console.log(res);
     if (success) {
       toast.success("Leave Application Sent!");
     }
@@ -54,11 +59,36 @@ const ApplyForLeave = () => {
     setFormData(initialState);
   };
 
+  useEffect(() => {
+    console.log("Total Approved from Redux:", totalApproved);
+  }, [totalApproved]);
+
   return (
     <>
       <div className="main-content">
         <section className="section">
           <HeaderSection title="Apply for Leave" />
+
+          {/* Dashboard Cards */}
+          <div className="cards-container">
+            <CountsCard
+              title="Total Entitled Leave"
+              icon="fa-calendar-check"
+              count={totalEntitled}
+            />
+            <CountsCard
+              title="Used Leave"
+              icon="fa-calendar-times"
+              count={totalApproved}
+            />
+            <CountsCard
+              title="Remaining Leave"
+              icon="fa-calendar"
+              count={remainingLeaves}
+            />
+          </div>
+
+          {/* Leave Form */}
           <div className="card">
             <div className="card-body pr-5 pl-5 m-1">
               <form className="row" onSubmit={onSubmit} id="addUserForm">
@@ -77,6 +107,7 @@ const ApplyForLeave = () => {
                       id="title"
                       name="title"
                       className="form-control"
+                      disabled={remainingLeaves === 0} // Disable input if remaining leaves is 0
                     />
                   </div>
                 </div>
@@ -88,6 +119,7 @@ const ApplyForLeave = () => {
                     onChange={inputEvent}
                     value={formData.type}
                     className="form-control select2"
+                    disabled={remainingLeaves === 0} // Disable input if remaining leaves is 0
                   >
                     <option>Select</option>
                     <option>Sick Leave</option>
@@ -95,6 +127,7 @@ const ApplyForLeave = () => {
                     <option>Emergency Leave</option>
                   </select>
                 </div>
+
                 <div className="form-group col-md-4">
                   <label>Enter Period</label>
                   <div className="input-group">
@@ -110,15 +143,17 @@ const ApplyForLeave = () => {
                       id="period"
                       name="period"
                       className="form-control"
+                      disabled={remainingLeaves === 0} // Disable input if remaining leaves is 0
                     />
                   </div>
                 </div>
+
                 <div className="form-group col-md-6">
                   <label>Start Date</label>
                   <div className="input-group">
                     <div className="input-group-prepend">
                       <div className="input-group-text">
-                        <i class="fa fa-calendar"></i>
+                        <i className="fa fa-calendar"></i>
                       </div>
                     </div>
                     <input
@@ -128,7 +163,8 @@ const ApplyForLeave = () => {
                       id="startDate"
                       name="startDate"
                       className="form-control"
-                    ></input>
+                      disabled={remainingLeaves === 0} // Disable input if remaining leaves is 0
+                    />
                   </div>
                 </div>
 
@@ -137,7 +173,7 @@ const ApplyForLeave = () => {
                   <div className="input-group">
                     <div className="input-group-prepend">
                       <div className="input-group-text">
-                        <i class="fa fa-calendar"></i>
+                        <i className="fa fa-calendar"></i>
                       </div>
                     </div>
                     <input
@@ -147,11 +183,12 @@ const ApplyForLeave = () => {
                       id="endDate"
                       name="endDate"
                       className="form-control"
-                    ></input>
+                      disabled={remainingLeaves === 0} // Disable input if remaining leaves is 0
+                    />
                   </div>
                 </div>
 
-                <div className="form-group col-md-12 ">
+                <div className="form-group col-md-12">
                   <label>Enter Reason</label>
                   <div className="input-group">
                     <div className="input-group-prepend">
@@ -166,6 +203,7 @@ const ApplyForLeave = () => {
                       id="reason"
                       name="reason"
                       className="form-control"
+                      disabled={remainingLeaves === 0} // Disable input if remaining leaves is 0
                     />
                   </div>
                 </div>
@@ -175,6 +213,7 @@ const ApplyForLeave = () => {
                     className="btn btn-primary btn-lg"
                     type="submit"
                     style={{ width: "30vh" }}
+                    disabled={remainingLeaves === 0} // Disable button if remaining leaves is 0
                   >
                     Apply Leave
                   </button>

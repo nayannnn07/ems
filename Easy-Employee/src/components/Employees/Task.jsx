@@ -6,6 +6,10 @@ const TaskPage = () => {
     { id: 1, name: "Design Homepage", status: "Pending" },
     { id: 2, name: "Develop Login API", status: "In Progress" },
     { id: 3, name: "Test User Dashboard", status: "Completed" },
+    { id: 4, name: "Implement Authentication System", status: "Pending" },
+    { id: 5, name: "Optimize Database Queries", status: "In Progress" },
+    { id: 6, name: "Fix UI Bugs in Profile Page", status: "Pending" },
+    { id: 7, name: "Integrate Payment Gateway", status: "Completed" },
   ]);
 
   // Function to handle the status change of a task
@@ -33,16 +37,14 @@ const TaskPage = () => {
       <section className="section">
         <div className="card">
           <div className="card-header d-flex justify-content-between">
-            <h4>Task Management</h4>
+            <h4 style={{ fontSize: "24px", fontWeight: 700 }}>Task List</h4>
           </div>
         </div>
 
         {/* Centered Table Section */}
         <div className="card">
           <div className="card-body">
-            <div className="card-header d-flex justify-content-between align-items-center">
-              <h5>Task List</h5>
-            </div>
+            
             <table className="table">
               <thead>
                 <tr>
