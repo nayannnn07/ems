@@ -64,6 +64,21 @@ class UserService {
 
     updateLeaveApplication = async (id, updatedLeave) => LeaveModel.findByIdAndUpdate(id, updatedLeave);
 
+    //Added for assign salary for each month
+    findSalaryForCurrentMonth = async (employeeID) => {
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      
+        return await UserSalaryModel.findOne({
+          employeeID,
+          assignedDate: {
+            $gte: startOfMonth,
+            $lt: startOfNextMonth,
+          },
+        });
+      };
+      
 }
 
 

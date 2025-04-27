@@ -261,7 +261,7 @@ class UserController {
 
   markEmployeeAttendance = async (req, res, next) => {
     try {
-      const { employeeID } = req.body;
+      const { employeeID, present=true } = req.body;
       const days = [
         "Sunday",
         "Monday",
@@ -281,7 +281,7 @@ class UserController {
         month: d.getMonth() + 1,
         date: d.getDate(),
         day: days[d.getDay()],
-        present: true,
+        present,
       };
 
       const isAttendanceMarked = await attendanceService.findAttendance(
@@ -302,13 +302,13 @@ class UserController {
       console.log(resp);
       if (!resp)
         return next(ErrorHandler.serverError("Failed to mark attendance"));
-
+      const statusText = present ? "Marked as Present" : "Marked as Absent";
       const msg =
         d.toLocaleDateString() +
         " " +
         days[d.getDay()] +
         " " +
-        "Attendance Marked!";
+        statusText + "!";
 
       res.json({ success: true, newAttendance, message: msg });
     } catch (error) {
@@ -399,48 +399,139 @@ class UserController {
     }
   };
 
-  assignEmployeeSalary = async (req, res, next) => {
+  //changed for each month assignment
+  // assignEmployeeSalary = async (req, res, next) => { 
+  //   try {
+  //     const data = req.body;
+  //     const { employeeID } = data;
+  
+  //     if (!employeeID)
+  //       return next(ErrorHandler.badRequest("Employee ID is required"));
+  
+  //     const isSalaryAssigned = await userService.findSalaryForCurrentMonth(employeeID);
+  
+  //     if (isSalaryAssigned)
+  //       return next(ErrorHandler.serverError("Salary already assigned for this month"));
+  
+  //     const today = new Date();
+  //     data["assignedDate"] = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+      
+  //     const resp = await userService.assignSalary(data);
+  
+  //     if (!resp)
+  //       return next(ErrorHandler.serverError("Failed to assign salary"));
+  
+  //     res.json({ success: true, data: resp });
+  
+  //   } catch (error) {
+  //     res.json({ success: false, error });
+  //   }
+  // };
+
+  // changed for new fields in assign salary
+  assignEmployeeSalary = async (req, res, next) => { 
     try {
       const data = req.body;
-      const obj = {
-        employeeID: data.employeeID,
-      };
-      const isSalaryAssigned = await userService.findSalary(obj);
+      const { employeeID } = data;
+  
+      if (!employeeID)
+        return next(ErrorHandler.badRequest("Employee ID is required"));
+  
+      const isSalaryAssigned = await userService.findSalaryForCurrentMonth(employeeID);
+  
       if (isSalaryAssigned)
-        return next(ErrorHandler.serverError("Salary already assigned"));
-
-      const d = new Date();
-      data["assignedDate"] =
-        d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        return next(ErrorHandler.serverError("Salary already assigned for this month"));
+  
+      const today = new Date();
+      data.assignedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  
+      // Auto-calculation
+      const grossSalary = parseFloat(data.grossSalary);
+      const bonus = parseFloat(data.bonus || 0);
+  
+      if (isNaN(grossSalary) || grossSalary <= 0) {
+        return next(ErrorHandler.badRequest("Invalid gross salary value"));
+      }
+  
+      // Adjusted to 50% for basic salary
+      const basicSalary = +(grossSalary * 0.6).toFixed(2);
+      const dearnessAllowance = +(grossSalary * 0.2).toFixed(2);
+  
+      // Adjusted SSF to 11% of basic salary
+      const providentFund = +(basicSalary * 0.10).toFixed(2);
+      const socialSecurityFund = +(basicSalary * 0.11).toFixed(2); // Adjusted SSF percentage
+      const totalDeductions = +(providentFund + socialSecurityFund).toFixed(2);
+  
+      const netSalary = +(grossSalary + bonus - totalDeductions).toFixed(2);
+  
+      // Set calculated fields
+      data.basicSalary = basicSalary;
+      data.dearnessAllowance = dearnessAllowance;
+      data.providentFund = providentFund;
+      data.socialSecurityFund = socialSecurityFund;
+      data.totalDeductions = totalDeductions;
+      data.netSalary = netSalary;
+  
       const resp = await userService.assignSalary(data);
+  
       if (!resp)
         return next(ErrorHandler.serverError("Failed to assign salary"));
+  
       res.json({ success: true, data: resp });
+  
     } catch (error) {
       res.json({ success: false, error });
     }
   };
-
+  
+  
   updateEmployeeSalary = async (req, res, next) => {
     try {
       const body = req.body;
-      const { employeeID } = body;
-      const d = new Date();
-      body["assignedDate"] =
-        d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      const {
+        employeeID,
+        grossSalary,
+        bonus,
+        reasonForBonus,
+        assignedDate,
+        basicSalary,
+        dearnessAllowance,
+        providentFund,
+        socialSecurityFund,
+        totalDeductions,
+        netSalary,
+      } = body;
+  
+      // Create an update object that will be used to update the salary details
+      const salaryData = {
+        grossSalary,
+        bonus,
+        reasonForBonus,
+        assignedDate,
+        basicSalary,
+        dearnessAllowance,
+        providentFund,
+        socialSecurityFund,
+        totalDeductions,
+        netSalary,  // Add calculated fields here
+      };
+  
+      // Update salary in the database
       const isSalaryUpdated = await userService.updateSalary(
         { employeeID },
-        body
+        salaryData
       );
-      console.log(isSalaryUpdated);
+  
       if (!isSalaryUpdated)
         return next(ErrorHandler.serverError("Failed to update salary"));
+  
       res.json({ success: true, message: "Salary Updated" });
     } catch (error) {
       res.json({ success: false, error });
     }
   };
-
+  
+  
   viewSalary = async (req, res, next) => {
     try {
       const data = req.body;
