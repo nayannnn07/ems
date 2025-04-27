@@ -41,15 +41,15 @@ const Employee = () => {
           <i className="fas fa-book"></i> <span>Leave Applications</span>
         </NavLink>
       </li>
-      <li>
-        <NavLink className="nav-link" to="/task">
-          <i className="fas fa-tasks"></i> <span>Task</span>
-        </NavLink>
-      </li>
 
       <li>
         <NavLink className="nav-link" to="/userSalary">
           <i class="fas fa-piggy-bank"></i> <span>Salary</span>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink className="nav-link" to="/task">
+          <i className="fas fa-tasks"></i> <span>Task</span>
         </NavLink>
       </li>
 

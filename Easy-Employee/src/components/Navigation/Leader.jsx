@@ -29,14 +29,15 @@ const Leader = () => {
         </NavLink>
       </li>
 
-      <li>
-        <NavLink className="nav-link" to="/role">
-          <i className="fas fa-user-tag"></i> <span>Assign Task</span>
-        </NavLink>
-      </li>
+      
       <li>
         <NavLink className="nav-link" to="/userSalary">
           <i class="fas fa-piggy-bank"></i> <span>Salary</span>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink className="nav-link" to="/role">
+          <i className="fas fa-user-tag"></i> <span>Assign Task</span>
         </NavLink>
       </li>
 
