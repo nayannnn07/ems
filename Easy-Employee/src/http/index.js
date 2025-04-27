@@ -70,6 +70,17 @@ export const viewLeaveApplications = (data) =>
 export const viewEmployeeSalary = (data) =>
   api.post("employee/view-salary", data);
 
+//added
+export const updateAttendanceStatus = (attendanceId, status) => {
+  console.log("Making API call to:", `/attendance/update-status/${attendanceId}`);
+  console.log("With data:", status);
+  
+  return api.patch(
+    `/attendance/update-status/${attendanceId}`,
+    status
+  );
+};
+
 api.interceptors.response.use(
   (response) => {
     console.log("All Cookies", document.cookie);

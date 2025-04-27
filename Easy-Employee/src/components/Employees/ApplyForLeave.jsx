@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import HeaderSection from "../../components/HeaderSection";
 import { applyforleave } from "../../http";
 import Modal from "../../components/modal/Modal";
@@ -8,17 +8,21 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CountsCard from "../../components/dashboard/CountsCard";
 import { useEffect } from "react";
-
+import {
+  fetchLeaveApplications,
+} from "../../store/leave-slice";
 const ApplyForLeave = () => {
   const { user } = useSelector((state) => state.authSlice);
   const totalApproved = useSelector((state) => state.leaveSlice.totalApproved);
 
   const totalEntitled = 15;
   const remainingLeaves = totalEntitled - totalApproved;
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchLeaveApplications(user.id)); 
     console.log("Total Approved from Redux:", totalApproved);
-  }, [totalApproved]);
+  }, [totalApproved], [dispatch, user.id]);
 
   const initialState = {
     title: "",

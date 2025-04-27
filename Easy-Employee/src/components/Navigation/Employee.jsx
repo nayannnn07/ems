@@ -30,17 +30,17 @@ const Employee = () => {
           <i className="fas fa-user"></i> <span>Attendance</span>
         </NavLink>
       </li>
-      <li>
-        <NavLink className="nav-link" to="/userLeaveApplications">
-          <i className="fas fa-book"></i> <span>Leave Applications</span>
-        </NavLink>
-      </li>
+     
       <li>
         <NavLink className="nav-link" to="/applyforleave">
           <i className="fas fa-pen"></i> <span>Apply For Leave</span>
         </NavLink>
       </li>
-
+      <li>
+        <NavLink className="nav-link" to="/userLeaveApplications">
+          <i className="fas fa-book"></i> <span>Leave Applications</span>
+        </NavLink>
+      </li>
       <li>
         <NavLink className="nav-link" to="/task">
           <i className="fas fa-tasks"></i> <span>Task</span>

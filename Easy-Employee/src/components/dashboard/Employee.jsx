@@ -1,27 +1,59 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCounts } from "../../http";
 import { setCount } from "../../store/main-slice";
 import CountsCard from "./CountsCard";
 import PieChart from "../PieChart";
+import { fetchLeaveApplications } from "../../store/leave-slice";
+import { viewEmployeeAttendance } from "../../http"; // Import attendance fetch function
 
-const Leader = () => {
+const Employee = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    getCounts().then((res) => {
-      if (res.success) dispatch(setCount(res.data));
-    });
-  }, [dispatch]);
 
   const { user, counts } = useSelector((state) => ({
     user: state.authSlice.user,
     counts: state.mainSlice.counts || {},
   }));
 
-  const { present = 50, absent = 10 } = counts;
+  const { pendingCount, approvedCount, rejectedCount, totalCount } =
+    useSelector((state) => state.leaveSlice);
+
+  const [attendance, setAttendance] = useState([]);
+  const [present, setPresent] = useState(0);
+  const [absent, setAbsent] = useState(0);
+
+  useEffect(() => {
+    dispatch(fetchLeaveApplications(user.id));
+    getCounts().then((res) => {
+      if (res.success) dispatch(setCount(res.data));
+    });
+
+    // Fetch attendance data for the employee
+    const fetchAttendance = async () => {
+      const obj = {
+        employeeID: user.id,
+      };
+      const res = await viewEmployeeAttendance(obj);
+      if (res.success) {
+        setAttendance(res.data); // Store attendance data
+
+        // Calculate present and absent counts dynamically
+        const presentCount = res.data.filter(
+          (att) => att.present === true
+        ).length;
+        const absentCount = res.data.filter(
+          (att) => att.present === false
+        ).length;
+
+        setPresent(presentCount); // Set present count
+        setAbsent(absentCount); // Set absent count
+      }
+    };
+
+    fetchAttendance();
+  }, [dispatch, user.id]);
 
   // Static Team Data
   const team = [
@@ -41,17 +73,22 @@ const Leader = () => {
         <CountsCard
           icon="fa-calendar-alt"
           title="Total Leave Applications"
-          count="10"
+          count={totalCount}
+        />
+        <CountsCard
+          icon="fa-clock"
+          title="Total Pending Leaves"
+          count={pendingCount}
         />
         <CountsCard
           icon="fa-check-circle"
           title="Total Approved Leaves"
-          count="4"
+          count={approvedCount}
         />
         <CountsCard
           icon="fa-times-circle"
           title="Total Rejected Leaves"
-          count="3"
+          count={rejectedCount}
         />
       </div>
 
@@ -91,8 +128,10 @@ const Leader = () => {
           </div>
         </div>
       </div>
+
+      
     </div>
   );
 };
 
-export default Leader;
+export default Employee;

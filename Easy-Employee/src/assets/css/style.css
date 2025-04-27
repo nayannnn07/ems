@@ -902,6 +902,60 @@ ol {
   }
 }
 
+/* Full Celendar Section in admin dashboard */
+.calendar-legend {
+  font-size: 0.95rem;
+  flex-wrap: wrap;
+}
+.legend-color-box {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+ 
+  transition: transform 0.2s ease-in-out;
+}
+.fc-event {
+  border-radius: 6px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  padding: 4px 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #fff !important; /* Ensure white text */
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.6); /* Add subtle outline for readability */
+  border: none !important;
+}
+
+.fc-event-title {
+  white-space: normal;
+}
+
+.legend-color-box:hover {
+  transform: scale(1.1);
+}
+
+.bg-leader {
+  background: linear-gradient(135deg, #f4a261, #e9c46a);
+  border: 1px solid #e9c46a;
+  box-shadow: 0 2px 4px rgba(244, 162, 97, 0.4);
+  border-radius: 50%;
+}
+
+.bg-employee {
+  background: linear-gradient(135deg, #e76f51, #ff9e80);
+  border: 1px solid #ff9e80;
+  box-shadow: 0 2px 4px rgba(231, 111, 81, 0.4);
+  border-radius: 50%;
+}
+
+
+.legend-label {
+  font-weight: 500;
+  color: #333;
+}
+
+
+
 /* 3.2 Form */
 .form-control,
 .input-group-text,

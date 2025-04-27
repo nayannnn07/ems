@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { markEmployeeAttendance, viewEmployeeAttendance } from "../../http";
 import { useSelector } from "react-redux";
@@ -11,22 +12,12 @@ const Attendance = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [attendance, setAttendance] = useState();
-  const [isBeforeDeadline, setIsBeforeDeadline] = useState(true); //added for attendance
+  const [isBeforeDeadline, setIsBeforeDeadline] = useState(true);
 
-  const years = [2020, 2021, 2022, 2023, 2024]; // Customize this as needed
+  const years = [2020, 2021, 2022, 2023, 2024, 2025];
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
   ];
   const monthDays = {
     January: 31,
@@ -42,27 +33,23 @@ const Attendance = () => {
     November: 30,
     December: 31,
   };
-  const numOfDays = monthDays[selectedMonth];
+  const numOfDays = monthDays[selectedMonth] || 31; // Default to 31 if not selected
   const days = Array.from({ length: numOfDays }, (_, index) => index + 1);
 
   useEffect(() => {
     const now = new Date();
-
-    // Check if today is Saturday (6) or Sunday (0)
     const isWeekend = now.getDay() === 0 || now.getDay() === 6;
 
-    // Define attendance marking window: 8:30 AM to 9:30 AM
     const startTime = new Date();
-    startTime.setHours(8, 30, 0, 0); // 8:30:00 AM
+    startTime.setHours(8, 30, 0, 0);
 
     const endTime = new Date();
-    endTime.setHours(9, 30, 0, 0); // 9:30:00 AM
+    endTime.setHours(9, 30, 0, 0);
 
-    // Check if current time is within the allowed window
     const isWithinTimeWindow = now >= startTime && now <= endTime;
 
     if (!isWithinTimeWindow || isWeekend) {
-      setIsBeforeDeadline(false); // Too early, too late, or it's weekend
+      setIsBeforeDeadline(false);
     }
 
     const storedData = localStorage.getItem(user.id);
@@ -70,12 +57,12 @@ const Attendance = () => {
       const data = JSON.parse(storedData);
       const dt = `${data.date}/${data.month}/${data.year}`;
       if (dt === now.toLocaleDateString()) {
-        setIsAttendanceMarked(true); // Already marked today
+        setIsAttendanceMarked(true);
       } else {
-        localStorage.clear(); // Old record
+        localStorage.clear();
       }
     }
-  }, []);
+  }, [user.id]);
 
   useEffect(() => {
     const dt = new Date();
@@ -90,7 +77,40 @@ const Attendance = () => {
       setAttendance(data);
     };
     fetchData();
-  }, []);
+  }, [user.id]);
+
+  // ✨ New Auto-Mark Absent Logic
+  useEffect(() => {
+    const now = new Date();
+    const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+
+    if (!isWeekend) {
+      const deadlineTime = new Date();
+      deadlineTime.setHours(9, 30, 0, 0);
+
+      if (now > deadlineTime && !isAttendanceMarked) {
+        const autoMarkAbsent = async () => {
+          try {
+            const res = await markEmployeeAttendance({
+              employeeID: user.id,
+              present: false, // mark as absent
+            });
+            if (res.success) {
+              toast.warn(`You were marked absent automatically for ${now.toLocaleDateString()}`);
+              const { newAttendance } = res;
+              const attendanceData = JSON.stringify(newAttendance);
+              localStorage.setItem(user.id, attendanceData);
+              setIsAttendanceMarked(true);
+            }
+          } catch (error) {
+            console.error("Failed to auto-mark absent:", error);
+          }
+        };
+
+        autoMarkAbsent();
+      }
+    }
+  }, [isAttendanceMarked, user.id]);
 
   const markAttendance = async () => {
     const res = await markEmployeeAttendance({ employeeID: user.id });
@@ -105,23 +125,16 @@ const Attendance = () => {
   };
 
   const searchAttendance = async () => {
-    const obj = {
-      employeeID: user.id,
-    };
-    if (selectedYear) {
-      obj["year"] = selectedYear;
-    }
-    if (selectedMonth) {
-      obj["month"] = months.findIndex((month) => month === selectedMonth) + 1;
-    }
-    if (selectedDay) {
-      obj["date"] = selectedDay;
-    }
+    const obj = { employeeID: user.id };
+    if (selectedYear) obj["year"] = selectedYear;
+    if (selectedMonth) obj["month"] = months.findIndex((month) => month === selectedMonth) + 1;
+    if (selectedDay) obj["date"] = selectedDay;
 
     const res = await viewEmployeeAttendance(obj);
     const { data } = res;
     setAttendance(data);
   };
+
   return (
     <>
       {attendance ? (
@@ -146,8 +159,7 @@ const Attendance = () => {
                     : !isBeforeDeadline
                     ? "Marking Closed"
                     : "Mark Attendance"}
-                </button>{" "}
-                {/*changed button for attendance */}
+                </button>
               </div>
             </div>
 
@@ -181,6 +193,7 @@ const Attendance = () => {
                   ))}
                 </select>
               </div>
+
               <div className="col">
                 <select
                   className="form-control select2"
@@ -203,6 +216,7 @@ const Attendance = () => {
               </button>
             </div>
           </section>
+
           <div className="table-responsive mt-4">
             <table className="table table-striped table-md center-text">
               <thead>
@@ -215,17 +229,37 @@ const Attendance = () => {
               </thead>
               <tbody>
                 {attendance?.map((attendance, idx) => (
-                  <tr>
+                  <tr key={idx}>
                     <td>{idx + 1}</td>
-                    <td>
-                      {attendance.date +
-                        "/" +
-                        attendance.month +
-                        "/" +
-                        attendance.year}
-                    </td>
+                    <td>{attendance.date + "/" + attendance.month + "/" + attendance.year}</td>
                     <td>{attendance.day}</td>
-                    <td>{attendance.present === true ? "Present" : ""}</td>
+                    <td>
+                      {attendance.present === true ? (
+                        <span style={{
+                          color: "green",
+                          fontWeight: "bold",
+                          fontSize: "1rem",
+                          backgroundColor: "#e6ffe6",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          display: "inline-block",
+                        }}>
+                          Present
+                        </span>
+                      ) : (
+                        <span style={{
+                          color: "red",
+                          fontWeight: "bold",
+                          fontSize: "1rem",
+                          backgroundColor: "#ffe6e6",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          display: "inline-block",
+                        }}>
+                          Absent
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

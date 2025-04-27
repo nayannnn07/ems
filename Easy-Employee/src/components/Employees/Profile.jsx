@@ -9,7 +9,7 @@ const Employee = () => {
       <section className="section">
         <div className="card">
           <div className="card-header d-flex justify-content-between">
-            <h4>Profile</h4>
+            <h4 style={{ fontSize: "24px", fontWeight: 700 }}>Profile</h4>
           </div>
         </div>
 
@@ -38,7 +38,7 @@ const Employee = () => {
                     <td>{user.email}</td>
                   </tr>
                   <tr>
-                    <th>Usertype</th>
+                    <th>User Role</th>
                     <td>{user.type}</td>
                   </tr>
                   <tr>

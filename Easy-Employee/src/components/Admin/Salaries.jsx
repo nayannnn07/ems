@@ -6,45 +6,45 @@ import HeaderSection from "../HeaderSection";
 
 const Salaries = () => {
   const history = useHistory();
-  const [employees, setEmployees] = useState();
-  const [employeeMap, setEmployeeMap] = useState();
-  const [selectedEmployee, setSelectedEmployee] = useState();
-  const [salaries, setSalaries] = useState();
+  const [salaries, setSalaries] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [employeeMap, setEmployeeMap] = useState({});
+  const [selectedEmployee, setSelectedEmployee] = useState("");
 
   useEffect(() => {
-    let empObj = {};
-    const fetchData = async () => {
-      const res = await viewAllSalaries({});
-      const { data } = res;
-      setSalaries(data);
+    const fetchAllData = async () => {
+      try {
+        const [salaryRes, empRes, leaderRes] = await Promise.all([
+          viewAllSalaries(),
+          getEmployees(),
+          getLeaders(),
+        ]);
+
+        const allEmployees = [...empRes.data, ...leaderRes.data];
+        const map = {};
+        allEmployees.forEach((emp) => {
+          map[emp.id] = { name: emp.name, email: emp.email };
+        });
+
+        setEmployeeMap(map);
+        setEmployees(allEmployees);
+        setSalaries(salaryRes.data);
+      } catch (error) {
+        console.error("Failed to fetch data", error);
+      }
     };
 
-    const fetchEmployees = async () => {
-      const emps = await getEmployees();
-      const leaders = await getLeaders();
-      emps.data.forEach(
-        (employee) => (empObj[employee.id] = [employee.name, employee.email])
-      );
-      leaders.data.forEach(
-        (leader) => (empObj[leader.id] = [leader.name, leader.email])
-      );
-      setEmployeeMap(empObj);
-      setEmployees([...emps.data, ...leaders.data]);
-    };
-
-    fetchData();
-    fetchEmployees();
+    fetchAllData();
   }, []);
 
   const searchSalary = async () => {
-    const obj = {};
-
-    if (selectedEmployee) {
-      obj["employeeID"] = selectedEmployee;
+    try {
+      const params = selectedEmployee ? { employeeID: selectedEmployee } : {};
+      const res = await viewAllSalaries(params);
+      setSalaries(res.data);
+    } catch (error) {
+      console.error("Failed to search salaries", error);
     }
-    const res = await viewAllSalaries(obj);
-    const { data } = res;
-    setSalaries(data);
   };
 
   return (
@@ -80,7 +80,7 @@ const Salaries = () => {
             </div>
           </section>
           <div className="table-responsive">
-            <table className="table table-striped table-md center-text">
+            <table className="table table-striped table-md text-center">
               <thead>
                 <tr>
                   <th>#</th>
@@ -88,20 +88,33 @@ const Salaries = () => {
                   <th>Email</th>
                   <th>Salary</th>
                   <th>Bonus</th>
+                  <th>Net Salary</th>
+                  <th>Assigned Date</th>
+                  <th>Action</th> {/* New column for Action */}
                 </tr>
               </thead>
-
-              <tbody className="sidebar-wrapper">
-                {salaries?.map((salary, idx) => (
-                  <tr
-                    className="hover-effect"
-                    onClick={() => history.push(`salary/${salary._id}`)}
-                  >
+              <tbody>
+                {salaries.map((salary, idx) => (
+                  <tr key={salary._id} className="hover-effect">
                     <td>{idx + 1}</td>
-                    <td>{employeeMap && employeeMap[salary.employeeID][0]}</td>
-                    <td>{employeeMap && employeeMap[salary.employeeID][1]}</td>
-                    <td>{salary.salary}</td>
+                    <td>{employeeMap[salary.employeeID]?.name || "N/A"}</td>
+                    <td>{employeeMap[salary.employeeID]?.email || "N/A"}</td>
+                    <td>{salary.grossSalary}</td>
                     <td>{salary.bonus}</td>
+                    <td>{salary.netSalary}</td>
+                    <td>
+                      {new Date(salary.assignedDate).toLocaleDateString()}
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-sm"
+                        style={{ backgroundColor: "#1c144c", color: "#fff" }}
+                        onClick={() => history.push(`/salary/${salary._id}`)}
+                      >
+                        <i className="fa fa-info-circle"></i>&nbsp; Details
+                      </button>
+                    </td>{" "}
+                    {/* Edit button */}
                   </tr>
                 ))}
               </tbody>

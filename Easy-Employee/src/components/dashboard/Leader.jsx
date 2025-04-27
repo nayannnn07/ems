@@ -1,29 +1,29 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCounts } from "../../http";
 import { setCount } from "../../store/main-slice";
+import { fetchLeaveApplications } from "../../store/leave-slice"; // ✅ Import action
 import CountsCard from "./CountsCard";
 import PieChart from "../PieChart";
+import { viewEmployeeAttendance } from "../../http"; // Import the function to fetch attendance
 
 const Leader = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    getCounts().then((res) => {
-      if (res.success) dispatch(setCount(res.data));
-    });
-  }, [dispatch]);
-
   const { user, counts } = useSelector((state) => ({
     user: state.authSlice.user,
     counts: state.mainSlice.counts || {},
   }));
 
-  const { present = 50, absent = 10 } = counts;
+  const { pendingCount, approvedCount, rejectedCount, totalCount } =
+    useSelector((state) => state.leaveSlice);
 
-  // Static Team Data
+  // ** Dynamic Present/Absent Calculation **
+  const [attendanceData, setAttendanceData] = useState([]);
+  const [presentCount, setPresentCount] = useState(0);
+  const [absentCount, setAbsentCount] = useState(0);
+
   const team = [
     { name: "Prajwol", role: "Frontend Developer" },
     { name: "Sujal", role: "Backend Developer" },
@@ -34,6 +34,36 @@ const Leader = () => {
     { name: "Aishworya", role: "Project Manager" },
   ];
 
+  useEffect(() => {
+    dispatch(fetchLeaveApplications(user.id)); // ✅ fetch leave data
+    getCounts().then((res) => {
+      if (res.success) dispatch(setCount(res.data));
+    });
+    
+    // Fetch attendance data for the team members
+    const fetchAttendance = async () => {
+      try {
+        const res = await viewEmployeeAttendance({
+          employeeID: user.id,
+        });
+
+        const data = res?.data || [];
+        setAttendanceData(data);
+
+        // Calculate present and absent counts
+        const present = data.filter((att) => att.present).length;
+        const absent = data.length - present;
+
+        setPresentCount(present);
+        setAbsentCount(absent);
+      } catch (error) {
+        console.error("Failed to fetch attendance:", error);
+      }
+    };
+
+    fetchAttendance();
+  }, [dispatch, user.id]);
+
   return (
     <div className="admin-container">
       {/* Top Cards Section */}
@@ -41,17 +71,22 @@ const Leader = () => {
         <CountsCard
           icon="fa-calendar-alt"
           title="Total Leave Applications"
-          count="8"
+          count={totalCount}
+        />
+        <CountsCard
+          icon="fa-clock"
+          title="Total Pending Leaves"
+          count={pendingCount}
         />
         <CountsCard
           icon="fa-check-circle"
           title="Total Approved Leaves"
-          count="5"
+          count={approvedCount}
         />
         <CountsCard
           icon="fa-times-circle"
           title="Total Rejected Leaves"
-          count="2"
+          count={rejectedCount}
         />
       </div>
 
@@ -60,7 +95,7 @@ const Leader = () => {
         <div className="col-md-6">
           <div className="card">
             <div className="card-body text-center">
-              <PieChart present={present} absent={absent} />
+              <PieChart present={presentCount} absent={absentCount} />
             </div>
           </div>
         </div>
