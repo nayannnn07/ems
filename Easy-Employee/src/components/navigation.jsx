@@ -50,7 +50,7 @@ const Navigation = () => {
               aria-label="Search"
               data-width="250"
             />
-            <button className="btn" type="submit" style={{ height: '44px' }}>
+            <button className="btn" type="submit" style={{ height: "44px" }}>
               <i className="fas fa-search"></i>
             </button>
           </div>

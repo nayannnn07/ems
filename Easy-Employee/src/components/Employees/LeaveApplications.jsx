@@ -6,7 +6,7 @@ import {
   fetchLeaveApplications,
   setTotalApproved,
   setApprovedCount,
-} from "../../store/leave-slice"; // Import async action creators
+} from "../../store/leave-slice";
 import { viewLeaveApplications } from "../../http";
 
 const LeaveApplications = () => {
@@ -17,25 +17,19 @@ const LeaveApplications = () => {
   const [applications, setApplications] = useState();
   const history = useHistory();
 
-  // Fetch the total approved leaves from Redux store
   const totalApproved = useSelector((state) => state.leaveSlice.totalApproved);
   const approvedCount = useSelector((state) => state.leaveSlice.approvedCount);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const obj = {
-      applicantID: user.id,
-    };
+    const obj = { applicantID: user.id };
 
     const fetchData = async () => {
       try {
-        // Use the async action to fetch leave applications
-        await dispatch(fetchLeaveApplications(user.id)); // Dispatch the async action
-
-        // Get the leave applications after the async action is completed
+        await dispatch(fetchLeaveApplications(user.id));
         const res = await viewLeaveApplications(obj);
-        setApplications(res.data); // Store applications in local state
+        setApplications(res.data);
       } catch (error) {
         console.error("Error fetching leave applications:", error);
       }
@@ -45,9 +39,7 @@ const LeaveApplications = () => {
   }, [user.id, dispatch]);
 
   const searchLeaveApplications = async () => {
-    const obj = {
-      applicantID: user.id,
-    };
+    const obj = { applicantID: user.id };
 
     if (type) obj["type"] = type;
     if (status) obj["adminResponse"] = status;
@@ -58,7 +50,6 @@ const LeaveApplications = () => {
       const { data } = res;
       setApplications(data);
 
-      // Update the total approved leaves count
       const approvedApplications = data.filter(
         (application) => application.adminResponse === "Approved"
       );
@@ -80,6 +71,23 @@ const LeaveApplications = () => {
     setStatus("");
   };
 
+  const getLeaveBadge = (type) => {
+    switch (type) {
+      case "Sick Leave":
+        return <span className="badge bg-danger text-white">Sick Leave</span>;
+      case "Casual Leave":
+        return (
+          <span className="badge bg-primary text-white">Casual Leave</span>
+        );
+      case "Emergency Leave":
+        return (
+          <span className="badge bg-warning text-dark">Emergency Leave</span>
+        );
+      default:
+        return <span className="badge bg-secondary text-white">Unknown</span>;
+    }
+  };
+
   return (
     <>
       {applications ? (
@@ -87,7 +95,9 @@ const LeaveApplications = () => {
           <section className="section">
             <div className="card">
               <div className="card-header d-flex justify-content-between">
-                <h4 style={{ fontSize: "24px", fontWeight: 700 }}>Leave Applications</h4>
+                <h4 style={{ fontSize: "24px", fontWeight: 700 }}>
+                  Leave Applications
+                </h4>
                 <div className="text-end">
                   <span className="text-success fw-bolder">
                     <i className="fa fa-check-circle"></i> Approved
@@ -104,7 +114,6 @@ const LeaveApplications = () => {
             </div>
 
             <div className="d-flex justify-content-center align-items-center w-100">
-              {/* Filters */}
               <div className="form-group col-md-2">
                 <label>Leave Type</label>
                 <select
@@ -122,7 +131,7 @@ const LeaveApplications = () => {
               <div className="form-group col-md-2">
                 <label>Status</label>
                 <select
-                  name="type"
+                  name="status"
                   onChange={(e) => setStatus(e.target.value)}
                   className="form-control select2"
                 >
@@ -144,10 +153,8 @@ const LeaveApplications = () => {
                   <input
                     onChange={(e) => setAppliedDate(e.target.value)}
                     type="date"
-                    id="startDate"
-                    name="startDate"
                     className="form-control"
-                  ></input>
+                  />
                 </div>
               </div>
 
@@ -171,17 +178,17 @@ const LeaveApplications = () => {
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody className="sidebar-wrapper">
+              <tbody>
                 {applications.map((application, idx) => (
                   <tr
-                    key={application._id} // Added key prop to avoid warning
+                    key={application._id}
                     className="hover-effect"
                     onClick={() =>
                       history.push(`userLeaveApplications/${application._id}`)
                     }
                   >
                     <td>{idx + 1}</td>
-                    <td>{application.type}</td>
+                    <td>{getLeaveBadge(application.type)}</td>
                     <td>{application.title}</td>
                     <td>{application.appliedDate}</td>
                     <td

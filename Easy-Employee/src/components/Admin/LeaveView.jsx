@@ -69,6 +69,20 @@ const LeaveView = () => {
   const baseColor = "#2e237a";
   const hoverColor = "#3a2d97";
 
+  // Function to get the badge color based on the leave type
+  const getLeaveTypeBadge = (type) => {
+    switch (type) {
+      case "Sick Leave":
+        return "bg-danger text-white"; // Red for Sick leave
+      case "Casual Leave":
+        return "bg-primary text-white"; // Blue for Casual leave
+      case "Emergency Leave":
+        return "bg-warning text-dark"; // Yellow for Emergency leave
+      default:
+        return "bg-secondary text-white"; // Default color for undefined types
+    }
+  };
+
   return (
     <>
       {applications ? (
@@ -76,7 +90,9 @@ const LeaveView = () => {
           <section className="section">
             <div className="card">
               <div className="card-header d-flex justify-content-between">
-                <h4 style={{ fontSize: "24px", fontWeight: 700 }}>Leave Applications</h4>
+                <h4 style={{ fontSize: "24px", fontWeight: 700 }}>
+                  Leave Applications
+                </h4>
                 <div className="text-end">
                   <span className="text-success fw-bolder">
                     <i className="fa fa-check-circle me-1"></i> Approved
@@ -217,7 +233,17 @@ const LeaveView = () => {
                     <td>{idx + 1}</td>
                     <td>{employeeMap?.[application.applicantID]?.[0]}</td>
                     <td>{employeeMap?.[application.applicantID]?.[1]}</td>
-                    <td>{application.type}</td>
+                    <td>
+                      {/* Display the leave type with badge */}
+                      <span
+                        className={`badge px-3 py-2 ${getLeaveTypeBadge(
+                          application.type
+                        )}`}
+                        style={{ color: "black" }}
+                      >
+                        {application.type}
+                      </span>
+                    </td>
                     <td>{application.title}</td>
                     <td>{application.appliedDate}</td>
                     <td

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom"; // ✅ Added
 import { toast } from "react-toastify";
 import HeaderSection from "../../components/HeaderSection";
 import {
@@ -8,9 +9,10 @@ import {
   viewAllSalaries,
 } from "../../http";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from "react-redux";
 
 const AssignSalary = () => {
+  const history = useHistory(); // ✅ Create history object
+
   const initialState = {
     grossSalary: "",
     bonus: "",
@@ -121,7 +123,12 @@ const AssignSalary = () => {
       const { success, error } = res;
 
       if (success) {
-        toast.success("Salary Assigned!");
+        toast.success("Salary Assigned Successfully!");
+
+        setTimeout(() => {
+          history.push("/salaries"); // ✅ Redirect after success
+        }, 1000);
+
         setFormData(initialState);
         setSelectedEmployee("");
         setSalaryAssignedIds((prev) => [...prev, selectedEmployee]);

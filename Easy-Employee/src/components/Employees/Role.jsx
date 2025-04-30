@@ -1,15 +1,32 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom"; // import useHistory
+import { toast } from "react-toastify"; // import toast
 
 const AssignTask = () => {
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedPerson, setSelectedPerson] = useState("");
   const [task, setTask] = useState("");
 
-  const roles = ["Manager", "Developer", "Designer", "Tester"];
-  const people = ["Nayana", "Anish", "Jane", "Prajwol"]; // Example people
+  const history = useHistory(); // initialize useHistory
 
-  const assignTask = () => {
-    alert(`Task "${task}" assigned to ${selectedPerson} (${selectedRole})`);
+  const roles = ["Manager", "Developer", "Designer", "Tester"];
+  const people = ["Nayana", "Anish", "Jane", "Prajwol"];
+
+  const assignTask = (e) => {
+    e.preventDefault(); // prevent default form submission
+
+    if (!selectedRole || !selectedPerson || !task) {
+      toast.error("Please fill all fields before assigning the task!");
+      return;
+    }
+
+    toast.success(
+      `Task "${task}" assigned to ${selectedPerson} (${selectedRole})`
+    );
+
+    setTimeout(() => {
+      history.push("/home"); // redirect after success toast
+    }, 1500); // slight delay to let toast show
   };
 
   return (
@@ -21,7 +38,10 @@ const AssignTask = () => {
           </div>
         </div>
 
-        <div className="d-flex flex-column align-items-center w-100">
+        <form
+          className="d-flex flex-column align-items-center w-100"
+          onSubmit={assignTask}
+        >
           {/* Assign To Role */}
           <div className="col mb-3">
             <label className="form-label">Assign To (Role)</label>
@@ -46,7 +66,7 @@ const AssignTask = () => {
               className="form-control select2"
               value={selectedPerson}
               onChange={(e) => setSelectedPerson(e.target.value)}
-              disabled={!selectedRole} // Disable until a role is selected
+              disabled={!selectedRole}
             >
               <option value="">Select Person</option>
               {people.map((person) => (
@@ -76,10 +96,10 @@ const AssignTask = () => {
               type="submit"
               style={{ width: "30vh" }}
             >
-              Assign task
+              Assign Task
             </button>
           </div>
-        </div>
+        </form>
       </section>
     </div>
   );

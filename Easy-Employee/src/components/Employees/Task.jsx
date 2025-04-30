@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom"; // import useHistory
+import { toast } from "react-toastify"; // import toast
 
 const TaskPage = () => {
-  // Static Task Data with state to manage the tasks
   const [tasks, setTasks] = useState([
     { id: 1, name: "Design Homepage", status: "Pending" },
     { id: 2, name: "Develop Login API", status: "In Progress" },
@@ -12,9 +13,10 @@ const TaskPage = () => {
     { id: 7, name: "Integrate Payment Gateway", status: "Completed" },
   ]);
 
+  const history = useHistory(); // initialize useHistory
+
   // Function to handle the status change of a task
   const handleStatusChange = (taskId) => {
-    // Copy the tasks to avoid direct mutation
     const updatedTasks = tasks.map((task) =>
       task.id === taskId
         ? {
@@ -30,6 +32,12 @@ const TaskPage = () => {
     );
 
     setTasks(updatedTasks); // Update the state with the new task statuses
+
+    toast.success("Task status updated successfully!");
+
+    setTimeout(() => {
+      history.push("/home"); // Redirect after toast
+    }, 1500); // Delay for user to see the toast
   };
 
   return (
@@ -44,7 +52,6 @@ const TaskPage = () => {
         {/* Centered Table Section */}
         <div className="card">
           <div className="card-body">
-            
             <table className="table">
               <thead>
                 <tr>

@@ -1,38 +1,45 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom"; // ✅ Import useHistory
 import { toast } from "react-toastify";
 import HeaderSection from "../../components/HeaderSection";
 import { addTeam } from "../../http";
 
 const AddTeam = () => {
+  const history = useHistory(); // ✅ Create history object
   const initialState = { name: "", description: "", image: "" };
   const [imagePreview, setImagePreview] = useState("/assets/icons/team.png");
   const [formData, setFormData] = useState(initialState);
 
   const inputEvent = (e) => {
     const { name, value } = e.target;
-    setFormData((old) => {
-      return {
-        ...old,
-        [name]: value,
-      };
-    });
+    setFormData((old) => ({
+      ...old,
+      [name]: value,
+    }));
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     const { name, description } = formData;
-    if (!name || !description) return toast.error("All Field Required");
+    if (!name || !description) return toast.error("All Fields Required");
 
     const fd = new FormData();
-    Object.keys(formData).map((key) => {
-      return fd.append(key, formData[key]);
+    Object.keys(formData).forEach((key) => {
+      fd.append(key, formData[key]);
     });
+
     const res = await addTeam(fd);
+
     if (res.success) {
       setFormData({ ...initialState });
       setImagePreview("/assets/icons/team.png");
       toast.success(res.message);
+
+      // ✅ Redirect to /team after successful add
+      setTimeout(() => {
+        history.push("/teams");
+      }, 1000);
     }
   };
 
@@ -54,13 +61,12 @@ const AddTeam = () => {
                       accept="image/*"
                     />
                     <label htmlFor="image">
-                      {" "}
                       <img
                         className="rounded"
                         src={imagePreview}
                         width="120"
                         alt=""
-                      />{" "}
+                      />
                     </label>
                   </div>
                 </div>
@@ -84,7 +90,7 @@ const AddTeam = () => {
                   </div>
                 </div>
 
-                <div className="form-group col-md-12 ">
+                <div className="form-group col-md-12">
                   <label>Enter Team Description</label>
                   <div className="input-group">
                     <div className="input-group-prepend">

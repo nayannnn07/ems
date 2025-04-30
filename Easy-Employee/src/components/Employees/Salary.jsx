@@ -3,32 +3,41 @@ import { useSelector } from "react-redux";
 import { viewEmployeeSalary } from "../../http";
 import { toast } from "react-toastify";
 import Loading from "../Loading";
-import jsPDF from "jspdf";
-import { generateSalarySlipPDF } from "../Admin/generateSalarySlipPDF"; 
+import { generateSalarySlipPDF } from "../Admin/generateSalarySlipPDF";
 
 const Salary = () => {
   const { user } = useSelector((state) => state.authSlice);
   const [salaryData, setSalaryData] = useState([]);
   const [filteredSalary, setFilteredSalary] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Default to current month
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const obj = { employeeID: user.id };
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const res = await viewEmployeeSalary(obj);
         const { data } = res;
         if (data.length > 0) {
           setSalaryData(data);
         } else {
-          toast.error(`${user.name}'s Salary not found`);
+          toast.error(`${user.name}'s salary records not found`, {
+            position: "top-right",
+            autoClose: 3000,
+          });
         }
       } catch (error) {
-        toast.error("Failed to fetch salary details");
+        toast.error("Failed to fetch salary details", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
-  }, [user.id]);
+  }, [user.id, user.name]);
 
   useEffect(() => {
     filterSalaryByMonth(selectedMonth);
@@ -48,8 +57,16 @@ const Salary = () => {
 
   const downloadSalarySlip = () => {
     if (filteredSalary) {
+      toast.info("Generating salary slip...", {
+        position: "top-right",
+        autoClose: 2000,
+      });
       const doc = generateSalarySlipPDF(user, filteredSalary);
-      doc.save("salary_slip.pdf");
+      doc.save(
+        `salary_slip_${
+          monthOptions.find((m) => m.value === selectedMonth)?.label
+        }_${new Date().getFullYear()}.pdf`
+      );
     }
   };
 
@@ -68,132 +85,269 @@ const Salary = () => {
     { value: 12, label: "December" },
   ];
 
-  return (
-    <>
-      {salaryData.length === 0 ? (
-        <Loading />
-      ) : (
-        <div className="main-content">
-          <section className="section">
-            <div className="card">
-              <div className="card-header d-flex justify-content-between align-items-center">
-              <h4>
-  Salary Details for {monthOptions.find((m) => m.value === selectedMonth)?.label} {new Date().getFullYear()}
-</h4>
+  if (isLoading) return <Loading />;
 
-                <select
-                  value={selectedMonth}
-                  onChange={handleMonthChange}
-                  className="form-select w-auto"
-                >
-                  {monthOptions.map((month) => (
-                    <option key={month.value} value={month.value}>
-                      {month.label}
-                    </option>
-                  ))}
-                </select>
+  return (
+    <div className="main-content">
+      <section className="section">
+        <div className="card shadow-sm border-0">
+          <div className="card-header bg-gradient-primary text-white py-4 d-flex justify-content-between align-items-center">
+            <h4 style={{ fontSize: "24px", fontWeight: 700 }}>
+              Salary Details
+            </h4>
+
+            <div className="d-flex align-items-center">
+              <label htmlFor="monthSelector" className="text-white me-2 mb-0">
+                Select Month:
+              </label>
+              <select
+                id="monthSelector"
+                value={selectedMonth}
+                onChange={handleMonthChange}
+                className="form-select shadow-sm border-0"
+                style={{ borderRadius: "8px", minWidth: "150px" }}
+              >
+                {monthOptions.map((month) => (
+                  <option key={month.value} value={month.value}>
+                    {month.label} {new Date().getFullYear()}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {filteredSalary ? (
+          <div className="row mt-4">
+            <div className="col-md-4 mb-4">
+              <div className="card shadow-sm border-0 h-100">
+                <div className="card-header bg-light py-3">
+                  <h5 className="mb-0">Employee Information</h5>
+                </div>
+                <div className="card-body">
+                  <div className="text-center mb-4">
+                    <div className="avatar mb-3">
+                      <div className="avatar-initial rounded-circle bg-light-primary">
+                        <span className="fs-3">{user.name.charAt(0)}</span>
+                      </div>
+                    </div>
+                    <h5 className="mb-1">{user.name}</h5>
+                    <p className="text-muted small">Employee ID: {user.id}</p>
+                  </div>
+
+                  <div className="employee-details">
+                    <div className="detail-item d-flex py-2 border-bottom">
+                      <div className="icon me-3">
+                        <i className="fas fa-envelope text-primary"></i>
+                      </div>
+                      <div>
+                        <div className="small text-muted">Email</div>
+                        <div>{user.email}</div>
+                      </div>
+                    </div>
+
+                    <div className="detail-item d-flex py-2 border-bottom">
+                      <div className="icon me-3">
+                        <i className="fas fa-phone text-primary"></i>
+                      </div>
+                      <div>
+                        <div className="small text-muted">Mobile</div>
+                        <div>{user.mobile}</div>
+                      </div>
+                    </div>
+
+                    <div className="detail-item d-flex py-2">
+                      <div className="icon me-3">
+                        <i className="fas fa-map-marker-alt text-primary"></i>
+                      </div>
+                      <div>
+                        <div className="small text-muted">Address</div>
+                        <div>{user.address}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {filteredSalary ? (
-              <div className="card mt-3">
-                <div className="card-body row">
-                  <div className="col-md-9">
-                    <table className="table">
-                      <tbody>
-                        <tr>
-                          <th>Name</th>
-                          <td>{user.name}</td>
-                        </tr>
-                        <tr>
-                          <th>Email</th>
-                          <td>{user.email}</td>
-                        </tr>
-                        <tr>
-                          <th>Mobile</th>
-                          <td>{user.mobile}</td>
-                        </tr>
-                        <tr>
-                          <th>Address</th>
-                          <td>{user.address}</td>
-                        </tr>
-                        <tr>
-                          <th>Gross Salary</th>
-                          <td> Rs. {filteredSalary?.grossSalary}</td>
-                        </tr>
-                        <tr>
-                          <th>Bonus</th>
-                          <td> Rs. {filteredSalary?.bonus}</td>
-                        </tr>
-                        <tr>
-                          <th>Reason for Bonus</th>
-                          <td>{filteredSalary?.reasonForBonus}</td>
-                        </tr>
-                        <tr>
-                          <th>Basic Salary</th>
-                          <td> Rs. {filteredSalary?.basicSalary}</td>
-                        </tr>
-                        <tr>
-                          <th>Dearness Allowance</th>
-                          <td> Rs. {filteredSalary?.dearnessAllowance}</td>
-                        </tr>
-                        <tr>
-                          <th>Provident Fund</th>
-                          <td> Rs. {filteredSalary?.providentFund}</td>
-                        </tr>
-                        <tr>
-                          <th>Social Security Fund</th>
-                          <td> Rs. {filteredSalary?.socialSecurityFund}</td>
-                        </tr>
-                        <tr>
-                          <th>Total Deduction</th>
-                          <td> Rs. {filteredSalary?.totalDeductions}</td>
-                        </tr>
-                        <tr>
-                          <th>Net Salary</th>
-                          <td> Rs. {filteredSalary?.netSalary}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+            <div className="col-md-8">
+              <div className="card shadow-sm border-0">
+                <div className="card-header bg-light py-3">
+                  <h5 className="mb-0">
+                    Salary Breakdown -{" "}
+                    {monthOptions.find((m) => m.value === selectedMonth)?.label}{" "}
+                    {new Date().getFullYear()}
+                  </h5>
+                </div>
+                <div className="card-body">
+                  <div className="row mb-4">
+                    <div className="col-md-4">
+                      <div className="card bg-success text-white">
+                        <div className="card-body text-center p-3">
+                          <h6 className="small text-white-50 mb-2">
+                            Net Salary
+                          </h6>
+                          <h4 className="mb-0">
+                            Rs. {filteredSalary?.netSalary.toLocaleString()}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="card bg-primary text-white">
+                        <div className="card-body text-center p-3">
+                          <h6 className="small text-white-50 mb-2">
+                            Gross Salary
+                          </h6>
+                          <h4 className="mb-0">
+                            Rs. {filteredSalary?.grossSalary.toLocaleString()}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="card bg-danger text-white">
+                        <div className="card-body text-center p-3">
+                          <h6 className="small text-white-50 mb-2">
+                            Deductions
+                          </h6>
+                          <h4 className="mb-0">
+                            Rs.{" "}
+                            {filteredSalary?.totalDeductions.toLocaleString()}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="card border shadow-sm mb-3">
+                        <div className="card-header bg-light py-2">
+                          <h6 className="mb-0">Earnings</h6>
+                        </div>
+                        <div className="card-body p-0">
+                          <table className="table table-hover mb-0">
+                            <tbody>
+                              <tr>
+                                <td className="ps-3">Basic Salary</td>
+                                <td className="text-end pe-3">
+                                  Rs.{" "}
+                                  {filteredSalary?.basicSalary.toLocaleString()}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="ps-3">Dearness Allowance</td>
+                                <td className="text-end pe-3">
+                                  Rs.{" "}
+                                  {filteredSalary?.dearnessAllowance.toLocaleString()}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="ps-3">Bonus</td>
+                                <td className="text-end pe-3">
+                                  Rs. {filteredSalary?.bonus.toLocaleString()}
+                                </td>
+                              </tr>
+                              {filteredSalary?.bonus > 0 && (
+                                <tr>
+                                  <td
+                                    colSpan="2"
+                                    className="ps-3 text-muted small fst-italic"
+                                  >
+                                    Reason: {filteredSalary?.reasonForBonus}
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="card border shadow-sm mb-3">
+                        <div className="card-header bg-light py-2">
+                          <h6 className="mb-0">Deductions</h6>
+                        </div>
+                        <div className="card-body p-0">
+                          <table className="table table-hover mb-0">
+                            <tbody>
+                              <tr>
+                                <td className="ps-3">Provident Fund</td>
+                                <td className="text-end pe-3">
+                                  Rs.{" "}
+                                  {filteredSalary?.providentFund.toLocaleString()}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="ps-3">Social Security Fund</td>
+                                <td className="text-end pe-3">
+                                  Rs.{" "}
+                                  {filteredSalary?.socialSecurityFund.toLocaleString()}
+                                </td>
+                              </tr>
+                              <tr className="table-light">
+                                <td className="ps-3 fw-bold">
+                                  Total Deductions
+                                </td>
+                                <td className="text-end pe-3 fw-bold">
+                                  Rs.{" "}
+                                  {filteredSalary?.totalDeductions.toLocaleString()}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-center mt-3">
                     <button
                       onClick={downloadSalarySlip}
-                      className="btn btn-success mt-4"
+                      className="btn btn-success px-4 py-2"
                       style={{
-                        width: "220px",
-                        fontWeight: "600",
-                        padding: "10px 20px",
                         borderRadius: "8px",
-                        fontSize: "14px",
-                        gap: "8px",
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                         transition: "all 0.3s ease",
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.backgroundColor = "#218838";
-                        e.currentTarget.style.transform = "scale(1.05)";
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow =
+                          "0 6px 12px rgba(0, 0, 0, 0.15)";
                       }}
                       onMouseOut={(e) => {
-                        e.currentTarget.style.backgroundColor = "#28a745";
-                        e.currentTarget.style.transform = "scale(1)";
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow =
+                          "0 4px 8px rgba(0, 0, 0, 0.1)";
                       }}
                     >
-                      <i className="fas fa-download"></i> &nbsp; Download Salary Slip
+                      <i className="fas fa-file-download me-2"></i>
+                      Download Salary Slip
                     </button>
                   </div>
                 </div>
               </div>
-            ) : (
-              <div className="card mt-3">
-                <div className="card-body text-center">
-                  <h5>No Records Found for Selected Month</h5>
-                </div>
+            </div>
+          </div>
+        ) : (
+          <div className="card mt-4 shadow-sm border-0">
+            <div className="card-body text-center py-5">
+              <div className="mb-3">
+                <i className="fas fa-search text-muted fa-3x"></i>
               </div>
-            )}
-          </section>
-        </div>
-      )}
-    </>
+              <h5>No Salary Record Found</h5>
+              <p className="text-muted">
+                There is no salary information available for{" "}
+                {monthOptions.find((m) => m.value === selectedMonth)?.label}{" "}
+                {new Date().getFullYear()}
+              </p>
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
   );
 };
 

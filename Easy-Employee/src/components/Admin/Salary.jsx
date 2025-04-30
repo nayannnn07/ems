@@ -175,87 +175,117 @@ const SalaryView = () => {
             <div className="card-body pr-5 pl-5 m-1">
               <div className="mb-5">
                 <div class="container-fluid">
-                <div className="row">
-  {/* Left Column */}
-  <div className="col-md-6">
-    {/* Name */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-user text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold" >Name: {employee?.name || "-"}</div>
-  
-      </div>
-    </div>
+                  <div className="row">
+                    {/* Left Column */}
+                    <div className="col-md-6">
+                      {/* Name */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-user text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Name: {employee?.name || "-"}
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Role */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-id-badge text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold" >Role: {employee?.type || "-"}</div>
-        
-      </div>
-    </div>
+                      {/* Role */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-id-badge text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Role: {employee?.type || "-"}
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Gross Salary */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-money-bill-alt text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold" >Gross Salary: Rs. {salary?.grossSalary || "-"}</div>
-        
-      </div>
-    </div>
+                      {/* Gross Salary */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-money-bill-alt text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Gross Salary: Rs. {salary?.grossSalary || "-"}
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Bonus */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-gift text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold">Bonus: Rs. {salary?.bonus || "-"}</div>
-      
-      </div>
-    </div>
-  </div>
+                      {/* Bonus */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-gift text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Bonus: Rs. {salary?.bonus || "-"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-  {/* Right Column */}
-  <div className="col-md-6">
-    {/* Email */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-envelope text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold" >Email: {employee?.email || "-"}</div>
-      
-      </div>
-    </div>
+                    {/* Right Column */}
+                    <div className="col-md-6">
+                      {/* Email */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-envelope text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Email: {employee?.email || "-"}
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Mobile Number */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-phone text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold" >Mobile: {employee?.mobile || "-"}</div>
-       
-      </div>
-    </div>
+                      {/* Mobile Number */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-phone text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Mobile: {employee?.mobile || "-"}
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Assigned Date */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-calendar-alt text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold" >Assigned Date: {salary?.assignedDate || "-"}</div>
-       
-      </div>
-    </div>
+                      {/* Assigned Date */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-calendar-alt text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Assigned Date: {salary?.assignedDate || "-"}
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Reason for Bonus */}
-    <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-      <i className="fas fa-info-circle text-primary mr-4" style={{ fontSize: "1.25rem" }}></i>
-      <div className="d-flex align-items-center">
-        <div className="fw-semibold" >Reason: {salary?.reasonForBonus || "-"}</div>
-       
-      </div>
-    </div>
-  </div>
-</div>
-
-                 
+                      {/* Reason for Bonus */}
+                      <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                        <i
+                          className="fas fa-info-circle text-primary mr-4"
+                          style={{ fontSize: "1.25rem" }}
+                        ></i>
+                        <div className="d-flex align-items-center">
+                          <div className="fw-semibold">
+                            Reason: {salary?.reasonForBonus || "-"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <hr />
 

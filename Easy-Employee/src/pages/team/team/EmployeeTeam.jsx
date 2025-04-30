@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import CountsCard from "../../../components/dashboard/CountsCard";
 import RowMember from "../../../components/rows/row-member";
 import {
@@ -18,6 +18,8 @@ import {
 import LeaderModal from "./modal/LeaderModal";
 import LeadersModal from "./modal/LeadersModal";
 import MembersModal from "./modal/MembersModal";
+import { Users, User, Mail, Phone, Shield, Edit, Plus } from "lucide-react";
+import HeaderSection from "../../../components/HeaderSection";
 
 const EmployeeTeam = () => {
   const dispatch = useDispatch();
@@ -33,6 +35,7 @@ const EmployeeTeam = () => {
   const [showLeadersModal, setShowLeadersModal] = useState(false);
 
   const { id } = useParams();
+
   useEffect(() => {
     (async () => {
       const res = await getEmployeeTeam(id);
@@ -85,103 +88,146 @@ const EmployeeTeam = () => {
         <section className="section">
           {team && (
             <>
-              <div className="section-header  d-flex justify-content-between">
-                <h1>Team</h1>
-              </div>
-              <div className="row">
-                <CountsCard
-                  title="Total Employee"
-                  icon="fa-user"
-                  count={team.information.employee}
-                />
-                <CountsCard
-                  title="Total Employee"
-                  icon="fa-user"
-                  count={team.information.employee}
-                />
-                <CountsCard
-                  title="Total Employee"
-                  icon="fa-user"
-                  count={team.information.employee}
-                />
-                <CountsCard
-                  title="Total Employee"
-                  icon="fa-user"
-                  count={team.information.employee}
-                />
+              <HeaderSection title="Team Details" />
+
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h5 className="text-primary mb-0">
+                  <Users size={20} className="mr-2" />
+                  {team.name}
+                </h5>
               </div>
 
-              <div className="card">
-                <div className="card-body">
-                  <table className="table">
-                    <tbody>
-                      <tr>
-                        <th>Name</th>
-                        <td>{team.name}</td>
-                      </tr>
-                      <tr>
-                        <th>Description</th>
-                        <td>{team.description}</td>
-                      </tr>
-                      <tr>
-                        <th>Leader</th>
-                        <td>
-                          {team.leader ? (
-                            <button
-                              className="badge btn badge-primary"
-                              onClick={modalLeaderAction}
-                            >
-                              {team.leader.name}
-                            </button>
-                          ) : (
-                            <button
-                              onClick={modalLeadersAction}
-                              className="badge badge-light btn"
-                            >
-                              No Leader
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div className="row">
+                <div className="col-md-3 mb-4">
+                  <div className="card shadow-sm border-0 h-100">
+                    <div className="card-body text-center">
+                      <div className="d-flex justify-content-center mb-3">
+                        <div className="bg-primary bg-opacity-10 p-3 rounded-circle">
+                          <User size={24} className="text-primary" />
+                        </div>
+                      </div>
+                      <h5 className="mb-1">Total Employees</h5>
+                      <h3 className="mb-0">{team.information.employee}</h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-md-9 mb-4">
+                  <div className="card shadow-sm border-0 h-100">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="mb-3">
+                            <h6 className="text-muted small">Team Name</h6>
+                            <p className="fw-semibold mb-0">{team.name}</p>
+                          </div>
+                          <div className="mb-3">
+                            <h6 className="text-muted small">Description</h6>
+                            <p className="fw-semibold mb-0">
+                              {team.description || "No description available"}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="mb-3">
+                            <h6 className="text-muted small">Team Leader</h6>
+                            <div className="fw-semibold">
+                              {team.leader ? (
+                                <button
+                                  className="btn btn-sm btn-outline-primary"
+                                  onClick={modalLeaderAction}
+                                >
+                                  {team.leader.name}
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={modalLeadersAction}
+                                  className="btn btn-sm btn-outline-secondary"
+                                >
+                                  Assign Leader
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card shadow-sm border-0 mt-4">
+                <div className="card-header bg-white border-bottom">
+                  <h5 className="mb-0">
+                    <Users size={20} className="mr-2 text-primary" />
+                    Team Members
+                  </h5>
+                </div>
+                <div className="card-body p-0">
+                  <div className="table-responsive">
+                    <table className="table table-hover mb-0">
+                      <thead className="bg-light">
+                        <tr>
+                          <th className="text-center">#</th>
+                          <th>
+                            <div className="d-flex align-items-center">
+                              <User size={16} className="mr-1" />
+                              Name
+                            </div>
+                          </th>
+                          <th>
+                            <div className="d-flex align-items-center">
+                              <Mail size={16} className="mr-1" />
+                              Email
+                            </div>
+                          </th>
+                          <th>
+                            <div className="d-flex align-items-center">
+                              <Phone size={16} className="mr-1" />
+                              Mobile
+                            </div>
+                          </th>
+                          <th>
+                            <div className="d-flex align-items-center">
+                              <Shield size={16} className="mr-1" />
+                              Status
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {membersLoading ? (
+                          <tr>
+                            <td colSpan="6" className="text-center py-4">
+                              <div
+                                className="spinner-border text-primary"
+                                role="status"
+                              >
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            </td>
+                          </tr>
+                        ) : teamMembers.length === 0 ? (
+                          <tr>
+                            <td colSpan="6" className="text-center py-4">
+                              No members found in this team
+                            </td>
+                          </tr>
+                        ) : (
+                          teamMembers.map((data, index) => (
+                            <RowMember
+                              key={index}
+                              index={index + 1}
+                              data={data}
+                            />
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </>
-          )}
-
-          {!membersLoading && (
-            <div className="card">
-              <div className="card-header">
-                <h4>All Employees</h4>
-              </div>
-              <div className="card-body p-0">
-                <div className="table-responsive">
-                  <table className="table table-striped table-md center-text">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {!loading &&
-                        teamMembers &&
-                        teamMembers.map((data, index) => (
-                          <RowMember
-                            key={index}
-                            index={index + 1}
-                            data={data}
-                          />
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
           )}
         </section>
       </div>
