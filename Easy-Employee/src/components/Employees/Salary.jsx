@@ -127,42 +127,66 @@ const Salary = () => {
                 <div className="card-body">
                   <div className="text-center mb-4">
                     <div className="avatar mb-3">
-                      <div className="avatar-initial rounded-circle bg-light-primary">
+                      <div
+                        className="avatar-initial rounded-circle bg-light-primary d-flex justify-content-center align-items-center"
+                        style={{ width: "45px", height: "40px" }}
+                      >
                         <span className="fs-3">{user.name.charAt(0)}</span>
                       </div>
                     </div>
                     <h5 className="mb-1">{user.name}</h5>
-                    <p className="text-muted small">Employee ID: {user.id}</p>
                   </div>
 
                   <div className="employee-details">
-                    <div className="detail-item d-flex py-2 border-bottom">
+                    <div className="detail-item d-flex py-3 border-bottom">
                       <div className="icon me-3">
-                        <i className="fas fa-envelope text-primary"></i>
+                        <i
+                          className="fas fa-envelope text-primary"
+                          style={{ fontSize: "18px" }}
+                        ></i>
                       </div>
-                      <div>
-                        <div className="small text-muted">Email</div>
-                        <div>{user.email}</div>
+                      <div className="d-flex justify-content-between w-100">
+                        <div>
+                          <div className="small text-muted m-1"> Email</div>
+                          <div className="fw-bold">{user.email}</div>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="detail-item d-flex py-2 border-bottom">
+                    <div className="detail-item d-flex py-3 border-bottom">
                       <div className="icon me-3">
-                        <i className="fas fa-phone text-primary"></i>
+                        <i
+                          className="fas fa-phone text-primary"
+                          style={{ fontSize: "18px" }}
+                        ></i>
                       </div>
-                      <div>
-                        <div className="small text-muted">Mobile</div>
-                        <div>{user.mobile}</div>
+                      <div className="d-flex justify-content-between w-100">
+                        <div>
+                          <div className="small text-muted m-1">Mobile</div>
+                          <div className="fw-bold">{user.mobile}</div>
+                        </div>
+                        <button
+                          className="btn btn-link text-primary"
+                          onClick={() =>
+                            navigator.clipboard.writeText(user.mobile)
+                          }
+                          title="Click to copy mobile number"
+                        >
+                          <i className="fas fa-copy"></i>
+                        </button>
                       </div>
                     </div>
 
-                    <div className="detail-item d-flex py-2">
+                    <div className="detail-item d-flex py-3">
                       <div className="icon me-3">
-                        <i className="fas fa-map-marker-alt text-primary"></i>
+                        <i
+                          className="fas fa-map-marker-alt text-primary"
+                          style={{ fontSize: "18px" }}
+                        ></i>
                       </div>
                       <div>
-                        <div className="small text-muted">Address</div>
-                        <div>{user.address}</div>
+                        <div className="small text-muted m-1">Address</div>
+                        <div className="fw-bold">{user.address}</div>
                       </div>
                     </div>
                   </div>
@@ -249,16 +273,6 @@ const Salary = () => {
                                   Rs. {filteredSalary?.bonus.toLocaleString()}
                                 </td>
                               </tr>
-                              {filteredSalary?.bonus > 0 && (
-                                <tr>
-                                  <td
-                                    colSpan="2"
-                                    className="ps-3 text-muted small fst-italic"
-                                  >
-                                    Reason: {filteredSalary?.reasonForBonus}
-                                  </td>
-                                </tr>
-                              )}
                             </tbody>
                           </table>
                         </div>

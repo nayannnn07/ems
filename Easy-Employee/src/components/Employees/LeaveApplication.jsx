@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { viewLeaveApplications } from "../../http";
 import Loading from "../Loading";
 import HeaderSection from "../../components/HeaderSection";
@@ -15,6 +15,7 @@ import {
 
 const LeaveApplication = () => {
   const { id } = useParams();
+  const history = useHistory();
   const [application, setApplication] = useState();
 
   useEffect(() => {
@@ -40,24 +41,53 @@ const LeaveApplication = () => {
   const getTypeBadge = (type) => {
     switch (type) {
       case "Sick Leave":
-        return <span className="badge bg-danger text-white">Sick Leave</span>;
+        return (
+          <span className="badge px-3 py-1 rounded bg-danger text-white">
+            Sick Leave
+          </span>
+        );
       case "Casual Leave":
         return (
-          <span className="badge bg-primary text-white">Casual Leave</span>
+          <span className="badge px-3 py-1 rounded bg-primary text-white">
+            Casual Leave
+          </span>
         );
       case "Emergency Leave":
         return (
-          <span className="badge bg-warning text-dark">Emergency Leave</span>
+          <span className="badge px-3 py-1 rounded bg-warning text-dark">
+            Emergency Leave
+          </span>
         );
       default:
-        return <span className="badge bg-secondary text-white">Unknown</span>;
+        return (
+          <span className="badge px-3 py-1 rounded bg-secondary text-white">
+            Unknown
+          </span>
+        );
     }
+  };
+
+  const handleClose = () => {
+    history.push("/userLeaveApplications");
   };
 
   return application ? (
     <div className="main-content">
       <section className="section">
-        <HeaderSection title="Leave Application Details" />
+        <HeaderSection
+          title="Leave Application Details"
+          rightContent={
+            <div className="d-flex justify-content-end align-items-center w-100">
+              <button
+                className="btn btn-light btn-sm ml-auto"
+                onClick={handleClose}
+                title="Close"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+          }
+        />
         <div className="card shadow-sm border-0">
           <div className="card-header bg-white border-bottom">
             <div className="d-flex justify-content-between align-items-center">
@@ -65,9 +95,18 @@ const LeaveApplication = () => {
                 <FileText size={20} className="text-primary mr-2" />
                 Application from {application?.employeeName || "Employee"}
               </h5>
-              <span className="badge bg-light text-dark">
-                Applied on: {application?.appliedDate}
-              </span>
+              <div className="d-flex align-items-center">
+                <span className="badge px-3 py-1 rounded bg-light text-dark mr-3">
+                  Applied on: {application?.appliedDate}
+                </span>
+                <button
+                  className="btn btn-light btn-sm ml-auto"
+                  onClick={handleClose}
+                  title="Close"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -85,10 +124,8 @@ const LeaveApplication = () => {
                 <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   <User size={18} className="text-primary mr-4" />
                   <div>
-                    <div className="text-muted small">Employee</div>
-                    <div className="fw-semibold">
-                      {application?.employeeName}
-                    </div>
+                    <div className="text-muted small">User</div>
+                    <div className="fw-semibold">Employee</div>
                   </div>
                 </div>
 

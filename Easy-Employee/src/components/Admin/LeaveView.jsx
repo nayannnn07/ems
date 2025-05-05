@@ -83,6 +83,19 @@ const LeaveView = () => {
     }
   };
 
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case "Approved":
+        return "bg-success text-white";
+      case "Rejected":
+        return "bg-danger text-white";
+      case "Pending":
+        return "bg-warning text-dark";
+      default:
+        return "bg-secondary text-white";
+    }
+  };
+
   return (
     <>
       {applications ? (
@@ -236,7 +249,7 @@ const LeaveView = () => {
                     <td>
                       {/* Display the leave type with badge */}
                       <span
-                        className={`badge px-3 py-2 ${getLeaveTypeBadge(
+                        className={`badge px-3 py-1 rounded ${getLeaveTypeBadge(
                           application.type
                         )}`}
                         style={{ color: "black" }}
@@ -246,16 +259,15 @@ const LeaveView = () => {
                     </td>
                     <td>{application.title}</td>
                     <td>{application.appliedDate}</td>
-                    <td
-                      className={`${
-                        application.adminResponse === "Rejected"
-                          ? "text-danger"
-                          : application.adminResponse === "Pending"
-                          ? "text-primary"
-                          : "text-success"
-                      }`}
-                    >
-                      {application.adminResponse}
+                    <td>
+                      {/* Display the status with badge */}
+                      <span
+                        className={`badge px-3 py-1 rounded ${getStatusBadge(
+                          application.adminResponse
+                        )}`}
+                      >
+                        {application.adminResponse}
+                      </span>
                     </td>
                   </tr>
                 ))}

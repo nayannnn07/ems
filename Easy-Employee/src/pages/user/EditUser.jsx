@@ -61,8 +61,14 @@ const EditUser = () => {
     Object.keys(updateFormData).map((key) => {
       return fd.append(key, updateFormData[key]);
     });
+
     const { success, message } = await updateUser(id, fd);
-    return success && toast.success(message);
+    if (success) {
+      toast.success(message); // Show success toast
+      handleClose(); // Redirect based on user type
+    } else {
+      toast.error(message); // Show error toast in case of failure
+    }
   };
 
   const captureImage = (e) => {
@@ -106,6 +112,7 @@ const EditUser = () => {
         history.push("/employees");
     }
   };
+
   return (
     <>
       {showModal && (

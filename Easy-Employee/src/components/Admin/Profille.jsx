@@ -6,8 +6,6 @@ import {
   Phone,
   Badge,
   MapPin,
-  Edit,
-  Download,
   AtSign,
   Calendar,
   Shield,
@@ -70,17 +68,6 @@ const Employee = () => {
                     </div>
                   </div>
 
-                  {/* Username */}
-                  <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-                    <Shield size={18} className="text-primary mr-4" />
-                    <div>
-                      <div className="text-muted small">Status</div>
-                      <div className="fw-semibold">
-                        <StatusBadge status={user?.status || "Active"} />
-                      </div>
-                    </div>
-                  </div>
-
                   {/* Role */}
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Shield size={18} className="text-primary mr-4" />
@@ -91,8 +78,6 @@ const Employee = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Department */}
                 </div>
 
                 {/* Right Column */}
@@ -132,6 +117,15 @@ const Employee = () => {
                   </div>
 
                   {/* Status */}
+                  <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
+                    <Shield size={18} className="text-primary mr-4" />
+                    <div>
+                      <div className="text-muted small">Status</div>
+                      <div className="fw-semibold">
+                        <StatusBadge status={user?.status || "Active"} />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -185,9 +179,6 @@ const Employee = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Action Buttons */}
-              <div className="d-flex justify-content-end gap-3 mt-4"></div>
             </div>
           </div>
         </div>

@@ -223,18 +223,17 @@ const Admin = () => {
             {attendanceList.length > 0 ? (
               attendanceList.map((attendance, index) => (
                 <li key={index} className="attendance-item">
-  <span className="attendance-rank">
-    <i
-      className="fa fa-medal"
-      style={{ color: "#fcc200" }} // Gold color for all
-    ></i>
-  </span>
-  <span className="attendance-name">{attendance.name}</span>
-  <span className="attendance-percentage">
-    {attendance.attendancePercentage}% Attendance
-  </span>
-</li>
-
+                  <span className="attendance-rank">
+                    <i
+                      className="fa fa-medal"
+                      style={{ color: "#fcc200" }} // Gold color for all
+                    ></i>
+                  </span>
+                  <span className="attendance-name">{attendance.name}</span>
+                  <span className="attendance-percentage">
+                    {attendance.attendancePercentage}% Attendance
+                  </span>
+                </li>
               ))
             ) : (
               <p>No attendance data available.</p>

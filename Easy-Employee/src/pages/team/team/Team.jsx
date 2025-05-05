@@ -1,25 +1,26 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import CountsCard from "../../../components/dashboard/CountsCard";
-import RowMember from "../../../components/rows/row-member";
+import { useDispatch, useSelector } from "react-redux";
+import { Users, User, Mail, Phone, Shield, Edit, Plus } from "lucide-react";
+
 import {
   getFreeEmployees,
   getTeam,
   getTeamMembers,
   getFreeLeaders,
 } from "../../../http";
-import { useDispatch, useSelector } from "react-redux";
 import { setTeam, setTeamInformation } from "../../../store/team-slice";
 import {
   setFreeEmployees,
   setTeamMembers,
   setFreeLeaders,
 } from "../../../store/user-slice";
+
+import HeaderSection from "../../../components/HeaderSection";
+import RowMember from "../../../components/rows/row-member";
+import MembersModal from "./modal/MembersModal";
 import LeaderModal from "./modal/LeaderModal";
 import LeadersModal from "./modal/LeadersModal";
-import MembersModal from "./modal/MembersModal";
-import { Users, User, Mail, Phone, Shield, Edit, Plus } from "lucide-react";
-import HeaderSection from "../../../components/HeaderSection";
 
 const Team = () => {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ const Team = () => {
         setMembersLoading(false);
       }
     })();
-  }, [id]);
+  }, [id, dispatch]);
 
   const modalAction = async () => {
     setShowModal(!showModal);
@@ -109,16 +110,15 @@ const Team = () => {
 
       <div className="main-content">
         <section className="section">
-          {team && (
+          {!loading && team && (
             <>
               <HeaderSection title="Team Details" />
 
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h5 className="text-primary mb-0">
                   <Users size={20} className="mr-2" />
-                  {team.name}
                 </h5>
-                <div className="d-flex gap-2">
+                <div className="d-flex" style={{ gap: "12px" }}>
                   <NavLink
                     to={`/editteam/${id}`}
                     className="btn btn-light btn-sm"
@@ -157,19 +157,27 @@ const Team = () => {
                       <div className="row">
                         <div className="col-md-6">
                           <div className="mb-3">
-                            <h6 className="text-muted small">Team Name</h6>
-                            <p className="fw-semibold mb-0">{team.name}</p>
+                            <div className="mb-2">
+                              <strong className="text-primary">
+                                Team Name:
+                              </strong>
+                              <span className="ms-2 fs-6"> {team.name}</span>
+                            </div>
                           </div>
                           <div className="mb-3">
-                            <h6 className="text-muted small">Description</h6>
-                            <p className="fw-semibold mb-0">
-                              {team.description || "No description available"}
-                            </p>
+                            <div className="mb-2">
+                              <strong className="text-primary">
+                                Description:
+                              </strong>
+                              <span className="ms-2 fs-6">
+                                {team.description || "No description available"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="mb-3">
-                            <h6 className="text-muted small">Team Leader</h6>
+                            <h6 className="text-muted small">Team Leader:</h6>
                             <div className="fw-semibold">
                               {team.leader ? (
                                 <button
@@ -181,8 +189,9 @@ const Team = () => {
                               ) : (
                                 <button
                                   onClick={modalLeadersAction}
-                                  className="btn btn-sm btn-outline-secondary"
+                                  className="btn btn-sm btn-primary"
                                 >
+                                  <Plus size={14} className="mr-1" />
                                   Assign Leader
                                 </button>
                               )}
@@ -256,7 +265,7 @@ const Team = () => {
                         ) : (
                           teamMembers.map((data, index) => (
                             <RowMember
-                              key={index}
+                              key={data.id || index}
                               index={index + 1}
                               data={data}
                             />
@@ -268,6 +277,14 @@ const Team = () => {
                 </div>
               </div>
             </>
+          )}
+
+          {loading && (
+            <div className="d-flex justify-content-center py-5">
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
           )}
         </section>
       </div>

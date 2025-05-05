@@ -74,17 +74,58 @@ const LeaveApplications = () => {
   const getLeaveBadge = (type) => {
     switch (type) {
       case "Sick Leave":
-        return <span className="badge bg-danger text-white">Sick Leave</span>;
+        return (
+          <span className="badge px-3 py-1 rounded bg-danger text-white">
+            Sick Leave
+          </span>
+        );
       case "Casual Leave":
         return (
-          <span className="badge bg-primary text-white">Casual Leave</span>
+          <span className="badge px-3 py-1 rounded bg-primary text-white">
+            Casual Leave
+          </span>
         );
       case "Emergency Leave":
         return (
-          <span className="badge bg-warning text-dark">Emergency Leave</span>
+          <span className="badge px-3 py-1 rounded bg-warning text-dark">
+            Emergency Leave
+          </span>
         );
       default:
-        return <span className="badge bg-secondary text-white">Unknown</span>;
+        return (
+          <span className="badge px-3 py-1 rounded bg-secondary text-white">
+            Unknown
+          </span>
+        );
+    }
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case "Approved":
+        return (
+          <span className="badge px-3 py-1 rounded bg-success text-white">
+            Approved
+          </span>
+        );
+      case "Rejected":
+        return (
+          <span className="badge px-3 py-1 rounded bg-danger text-white">
+            Rejected
+          </span>
+        );
+      case "Pending":
+        return (
+          <span className="badge px-3 py-1 rounded bg-primary text-white">
+            Pending
+          </span>
+        );
+      default:
+        return (
+          <span className="badge px-3 py-1 rounded bg-secondary text-white">
+            Unknown
+          </span>
+        );
     }
   };
 
@@ -191,17 +232,7 @@ const LeaveApplications = () => {
                     <td>{getLeaveBadge(application.type)}</td>
                     <td>{application.title}</td>
                     <td>{application.appliedDate}</td>
-                    <td
-                      className={`${
-                        application.adminResponse === "Rejected"
-                          ? "text-danger"
-                          : application.adminResponse === "Pending"
-                          ? "text-primary"
-                          : "text-success"
-                      }`}
-                    >
-                      {application.adminResponse}
-                    </td>
+                    <td>{getStatusBadge(application.adminResponse)}</td>
                   </tr>
                 ))}
               </tbody>

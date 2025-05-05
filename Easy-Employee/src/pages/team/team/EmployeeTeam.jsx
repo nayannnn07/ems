@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import CountsCard from "../../../components/dashboard/CountsCard";
-import RowMember from "../../../components/rows/row-member";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getFreeEmployees,
   getFreeLeaders,
   getEmployeeTeam,
   getEmployeeTeamMembers,
 } from "../../../http";
-import { useDispatch, useSelector } from "react-redux";
 import { setTeam, setTeamInformation } from "../../../store/team-slice";
 import {
   setFreeEmployees,
   setTeamMembers,
   setFreeLeaders,
 } from "../../../store/user-slice";
+import { Users, User, Mail, Phone, Shield, Edit, Plus } from "lucide-react";
+
+import HeaderSection from "../../../components/HeaderSection";
+import RowMember from "../../../components/rows/row-member";
 import LeaderModal from "./modal/LeaderModal";
 import LeadersModal from "./modal/LeadersModal";
 import MembersModal from "./modal/MembersModal";
-import { Users, User, Mail, Phone, Shield, Edit, Plus } from "lucide-react";
-import HeaderSection from "../../../components/HeaderSection";
 
 const EmployeeTeam = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
+
   const { team } = useSelector((state) => state.teamSlice);
   const { teamMembers } = useSelector((state) => state.userSlice);
 
@@ -33,8 +35,6 @@ const EmployeeTeam = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLeaderModal, setShowLeaderModal] = useState(false);
   const [showLeadersModal, setShowLeadersModal] = useState(false);
-
-  const { id } = useParams();
 
   useEffect(() => {
     (async () => {
@@ -86,15 +86,30 @@ const EmployeeTeam = () => {
 
       <div className="main-content">
         <section className="section">
-          {team && (
+          {!loading && team && (
             <>
               <HeaderSection title="Team Details" />
 
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h5 className="text-primary mb-0">
                   <Users size={20} className="mr-2" />
-                  {team.name}
                 </h5>
+                <div className="d-flex" style={{ gap: "12px" }}>
+                  <NavLink
+                    to={`/editteam/${id}`}
+                    className="btn btn-light btn-sm"
+                  >
+                    <Edit size={16} className="mr-1" />
+                    Edit Team
+                  </NavLink>
+                  <button
+                    onClick={modalAction}
+                    className="btn btn-primary btn-sm"
+                  >
+                    <Plus size={16} className="mr-1" />
+                    Add Member
+                  </button>
+                </div>
               </div>
 
               <div className="row">
@@ -102,8 +117,11 @@ const EmployeeTeam = () => {
                   <div className="card shadow-sm border-0 h-100">
                     <div className="card-body text-center">
                       <div className="d-flex justify-content-center mb-3">
-                        <div className="bg-primary bg-opacity-10 p-3 rounded-circle">
-                          <User size={24} className="text-primary" />
+                        <div
+                          className="bg-primary bg-opacity-10 p-3 rounded-circle d-flex justify-content-center align-items-center"
+                          style={{ width: "70px", height: "70px" }}
+                        >
+                          <User size={30} className="text-primary" />
                         </div>
                       </div>
                       <h5 className="mb-1">Total Employees</h5>
@@ -118,23 +136,31 @@ const EmployeeTeam = () => {
                       <div className="row">
                         <div className="col-md-6">
                           <div className="mb-3">
-                            <h6 className="text-muted small">Team Name</h6>
-                            <p className="fw-semibold mb-0">{team.name}</p>
+                            <div className="mb-3">
+                              <strong className="text-primary">
+                                Team Name:
+                              </strong>
+                              <span className="ms-2 fs-6"> {team.name}</span>
+                            </div>
                           </div>
                           <div className="mb-3">
-                            <h6 className="text-muted small">Description</h6>
-                            <p className="fw-semibold mb-0">
-                              {team.description || "No description available"}
-                            </p>
+                            <div className="mb-2">
+                              <strong className="text-primary">
+                                Description:
+                              </strong>
+                              <span className="ms-2 fs-6">
+                                {team.description || "No description available"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="mb-3">
-                            <h6 className="text-muted small">Team Leader</h6>
+                            <h6 className="text-muted small">Team Leader:</h6>
                             <div className="fw-semibold">
                               {team.leader ? (
                                 <button
-                                  className="btn btn-sm btn-outline-primary"
+                                  className="btn btn-primary btn-sm"
                                   onClick={modalLeaderAction}
                                 >
                                   {team.leader.name}
@@ -142,8 +168,9 @@ const EmployeeTeam = () => {
                               ) : (
                                 <button
                                   onClick={modalLeadersAction}
-                                  className="btn btn-sm btn-outline-secondary"
+                                  className="btn btn-sm btn-primary"
                                 >
+                                  <Plus size={14} className="mr-1" />
                                   Assign Leader
                                 </button>
                               )}
@@ -216,7 +243,7 @@ const EmployeeTeam = () => {
                         ) : (
                           teamMembers.map((data, index) => (
                             <RowMember
-                              key={index}
+                              key={data.id || index}
                               index={index + 1}
                               data={data}
                             />

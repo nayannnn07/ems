@@ -69,13 +69,13 @@ const Leave = () => {
   const getLeaveTypeBadge = (type) => {
     switch (type) {
       case "Sick Leave":
-        return "bg-danger text-white"; // Red for Sick leave
+        return "bg-danger text-white";
       case "Casual Leave":
-        return "bg-primary text-white"; // Blue for Casual leave
+        return "bg-primary text-white";
       case "Emergency Leave":
-        return "bg-warning text-dark"; // Yellow for Emergency leave
+        return "bg-warning text-dark";
       default:
-        return "bg-secondary text-white"; // Default color for undefined types
+        return "bg-secondary text-white";
     }
   };
 
@@ -89,17 +89,31 @@ const Leave = () => {
         <HeaderSection
           title="Leave Application Details"
           rightContent={
-            <button className="btn btn-light btn-sm" onClick={handleClose}>
-              <ChevronLeft size={16} className="mr-1" />
-              Back to Leaves
-            </button>
+            <div className="d-flex align-items-center">
+              <button
+                type="button"
+                className="btn btn-light btn-sm mr-2"
+                onClick={handleClose}
+              >
+                <ChevronLeft size={16} className="mr-1" />
+                Back to Leaves
+              </button>
+              {/* Added X button */}
+              <button
+                type="button"
+                className="btn btn-light btn-sm"
+                onClick={handleClose}
+              >
+                <XCircle size={16} className="mr-1 text-danger" />
+              </button>
+            </div>
           }
         />
 
         <div className="card shadow-sm border-0">
           <div className="card-header bg-white border-bottom">
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">
+              <h5 className="mb-0 fw-bold">
                 <FileText size={20} className="text-primary mr-2" />
                 Application from {application?.employeeName || "Employee"}
               </h5>
@@ -117,7 +131,7 @@ const Leave = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <FileText size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">Title</div>
+                      <div className="text-dark small fw-bold">Title</div>
                       <div className="fw-semibold">{application?.title}</div>
                     </div>
                   </div>
@@ -125,22 +139,20 @@ const Leave = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <User size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">Employee</div>
-                      <div className="fw-semibold">
-                        {application?.employeeName}
-                      </div>
+                      <div className="text-dark small fw-bold">User</div>
+                      <div className="fw-semibold">Employee</div>
                     </div>
                   </div>
 
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Calendar size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">Leave Type</div>
+                      <div className="text-dark small fw-bold">Leave Type</div>
                       <div className="fw-semibold">
                         <span
                           className={`badge ${getLeaveTypeBadge(
                             application?.type
-                          )} px-3 py-1`}
+                          )} px-3 py-1 rounded`}
                         >
                           {application?.type}
                         </span>
@@ -151,7 +163,7 @@ const Leave = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Clock size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">Duration</div>
+                      <div className="text-dark small fw-bold">Duration</div>
                       <div className="fw-semibold">
                         {application?.period} day(s)
                       </div>
@@ -164,7 +176,7 @@ const Leave = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Calendar size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">Start Date</div>
+                      <div className="text-dark small fw-bold">Start Date</div>
                       <div className="fw-semibold">
                         {application?.startDate}
                       </div>
@@ -174,7 +186,7 @@ const Leave = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Calendar size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">End Date</div>
+                      <div className="text-dark small fw-bold">End Date</div>
                       <div className="fw-semibold">{application?.endDate}</div>
                     </div>
                   </div>
@@ -182,7 +194,9 @@ const Leave = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Calendar size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">Applied Date</div>
+                      <div className="text-dark small fw-bold">
+                        Applied Date
+                      </div>
                       <div className="fw-semibold">
                         {application?.appliedDate}
                       </div>
@@ -192,7 +206,7 @@ const Leave = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     {getStatusIcon(application?.adminResponse)}
                     <div>
-                      <div className="text-muted small">Status</div>
+                      <div className="text-dark small fw-bold">Status</div>
                       <div
                         className={`fw-semibold ${
                           application?.adminResponse === "Approved"
@@ -214,7 +228,7 @@ const Leave = () => {
                 <div className="col-md-12">
                   <div className="card shadow-sm border-0">
                     <div className="card-header bg-light">
-                      <h6 className="mb-0">
+                      <h6 className="mb-0 fw-bold">
                         <FileText size={16} className="text-primary mr-2" />
                         Reason for Leave
                       </h6>
@@ -227,7 +241,10 @@ const Leave = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="d-flex justify-content-end gap-3 mt-4">
+              <div
+                className="d-flex justify-content-end mt-4"
+                style={{ gap: "12px" }}
+              >
                 <button
                   onClick={approveApplication}
                   className={`btn btn-success ${
@@ -238,6 +255,7 @@ const Leave = () => {
                   <CheckCircle size={16} className="mr-2" />
                   Approve
                 </button>
+
                 <button
                   onClick={rejectApplication}
                   className={`btn btn-danger ${
@@ -248,6 +266,7 @@ const Leave = () => {
                   <XCircle size={16} className="mr-2" />
                   Reject
                 </button>
+
                 {application?.adminResponse === "Pending" && (
                   <button className="btn btn-secondary">
                     <AlertCircle size={16} className="mr-2" />
