@@ -24,7 +24,7 @@ const RowTeam = ({ index, data }) => {
         </div>
       </td>
       <td>
-        <NavLink to={`/team/${data.id}`} className="btn btn-secondary">
+        <NavLink to={`/team/${data.id}`} className="btn btn-primary">
           Detail
         </NavLink>
       </td>

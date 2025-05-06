@@ -4,38 +4,54 @@ import {
   User,
   Mail,
   Phone,
-  Badge,
   MapPin,
-  Edit,
-  Download,
-  AtSign,
   Calendar,
   Shield,
   CreditCard,
+  UserCheck,
+  CircleDot,
 } from "lucide-react";
 import HeaderSection from "../../components/HeaderSection";
 
 const Employee = () => {
   const { user } = useSelector((state) => state.authSlice);
+  console.log(user);
 
   const StatusBadge = ({ status }) => {
-    const getStatusColor = () => {
-      switch (status?.toLowerCase()) {
+    const normalizedStatus = status?.toLowerCase();
+
+    const getStatusClass = () => {
+      switch (normalizedStatus) {
         case "active":
-          return "bg-green-100 text-green-800";
+          return "bg-success text-white";
         case "inactive":
-          return "bg-red-100 text-red-800";
+          return "bg-danger text-white";
         case "pending":
-          return "bg-yellow-100 text-yellow-800";
+          return "bg-warning text-dark";
         default:
-          return "bg-gray-100 text-gray-800";
+          return "bg-secondary text-white";
+      }
+    };
+
+    const getIconColor = () => {
+      switch (normalizedStatus) {
+        case "active":
+          return "text-white";
+        case "inactive":
+          return "text-white";
+        case "pending":
+          return "text-dark";
+        default:
+          return "text-white";
       }
     };
 
     return (
       <span
-        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor()}`}
+        className={`d-inline-flex align-items-center px-3 py-1 rounded-pill fw-semibold text-uppercase ${getStatusClass()}`}
+        style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}
       >
+        <CircleDot size={12} className={`mr-1 ${getIconColor()}`} />
         {status}
       </span>
     );
@@ -44,7 +60,7 @@ const Employee = () => {
   return (
     <div className="main-content">
       <section className="section">
-        <HeaderSection title="Employee Profile" />
+        <HeaderSection title="Profile" />
 
         <div className="card shadow-sm border-0">
           <div className="card-body p-5">
@@ -83,7 +99,7 @@ const Employee = () => {
 
                   {/* Role */}
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-                    <Shield size={18} className="text-primary mr-4" />
+                    <UserCheck size={18} className="text-primary mr-4" />
                     <div>
                       <div className="text-muted small">User Role</div>
                       <div className="fw-semibold">
@@ -151,11 +167,11 @@ const Employee = () => {
                       <ul className="list-group list-group-flush">
                         <li className="list-group-item d-flex justify-content-between">
                           <span>Join Date:</span>
-                          <span>{user?.joinDate || "Jan 15, 2022"}</span>
+                          <span>{user?.createdAt || "2025-03-30"}</span>
                         </li>
                         <li className="list-group-item d-flex justify-content-between">
                           <span>Employee ID:</span>
-                          <span>{user?.employeeId || "EMP-001"}</span>
+                          <span>{user?.employeeId || "EMP-002"}</span>
                         </li>
                       </ul>
                     </div>
@@ -174,11 +190,11 @@ const Employee = () => {
                       <ul className="list-group list-group-flush">
                         <li className="list-group-item d-flex justify-content-between">
                           <span>Last Login:</span>
-                          <span>{user?.lastLogin || "Today, 10:30 AM"}</span>
+                          <span>{user?.lastLogin || "12:12:40 PM"}</span>
                         </li>
                         <li className="list-group-item d-flex justify-content-between">
                           <span>Account Created:</span>
-                          <span>{user?.createdAt || "Jan 15, 2022"}</span>
+                          <span>{user?.createdAt || "2025-04-12"}</span>
                         </li>
                       </ul>
                     </div>

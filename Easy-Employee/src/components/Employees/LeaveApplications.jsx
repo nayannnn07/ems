@@ -72,28 +72,63 @@ const LeaveApplications = () => {
   };
 
   const getLeaveBadge = (type) => {
+    const baseStyle = {
+      fontWeight: "500",
+      fontSize: "0.85rem",
+      padding: "4px 12px",
+      borderRadius: "50px",
+      display: "inline-block",
+      whiteSpace: "nowrap",
+    };
+
     switch (type) {
       case "Sick Leave":
         return (
-          <span className="badge px-3 py-1 rounded bg-danger text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#155724",
+              backgroundColor: "#d4edda", // light green
+            }}
+          >
             Sick Leave
           </span>
         );
+
       case "Casual Leave":
         return (
-          <span className="badge px-3 py-1 rounded bg-primary text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#004085",
+              backgroundColor: "#d6e9f9", // soft sky blue
+            }}
+          >
             Casual Leave
           </span>
         );
+
       case "Emergency Leave":
         return (
-          <span className="badge px-3 py-1 rounded bg-warning text-dark">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#721c24",
+              backgroundColor: "#f8d7da", // soft red
+            }}
+          >
             Emergency Leave
           </span>
         );
       default:
         return (
-          <span className="badge px-3 py-1 rounded bg-secondary text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#383d41",
+              backgroundColor: "#e2e3e5",
+            }}
+          >
             Unknown
           </span>
         );
@@ -101,28 +136,60 @@ const LeaveApplications = () => {
   };
 
   const getStatusBadge = (status) => {
+    const baseStyle = {
+      fontWeight: "bold",
+      fontSize: "1rem",
+      padding: "4px 8px",
+      borderRadius: "4px",
+      display: "inline-block",
+    };
+
     switch (status) {
       case "Approved":
         return (
-          <span className="badge px-3 py-1 rounded bg-success text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "green",
+              backgroundColor: "#e6ffe6",
+            }}
+          >
             Approved
           </span>
         );
       case "Rejected":
         return (
-          <span className="badge px-3 py-1 rounded bg-danger text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "red",
+              backgroundColor: "#ffe6e6",
+            }}
+          >
             Rejected
           </span>
         );
       case "Pending":
         return (
-          <span className="badge px-3 py-1 rounded bg-primary text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#0066cc",
+              backgroundColor: "#e6f0ff",
+            }}
+          >
             Pending
           </span>
         );
       default:
         return (
-          <span className="badge px-3 py-1 rounded bg-secondary text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#555",
+              backgroundColor: "#f0f0f0",
+            }}
+          >
             Unknown
           </span>
         );

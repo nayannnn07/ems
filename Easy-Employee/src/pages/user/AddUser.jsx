@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import HeaderSection from "../../components/HeaderSection";
 import { addUser } from "../../http";
 import Modal from "../../components/modal/Modal";
-
+import { useHistory } from "react-router-dom";
 const AddUser = () => {
   const [imagePreview, setImagePreview] = useState("/assets/icons/user.png");
   const initialState = {
@@ -29,6 +29,7 @@ const AddUser = () => {
     });
   };
 
+  const history = useHistory();
   const onSubmit = async (e) => {
     e.preventDefault();
     const { name, email, mobile, password, type, address, profile } = formData;
@@ -47,6 +48,11 @@ const AddUser = () => {
     const { success, message } = await addUser(fd);
     if (success) {
       toast.success(message);
+      if (type === "Employee") {
+      history.push("/employees");}
+      else if (type === "Leader") {
+        history.push("/leaders");
+      }
       setShowModal(false);
       setFormData({ ...initialState });
       setImagePreview("/assets/icons/user.png");

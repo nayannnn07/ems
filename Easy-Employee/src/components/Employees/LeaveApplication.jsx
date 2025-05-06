@@ -38,29 +38,64 @@ const LeaveApplication = () => {
     }
   };
 
-  const getTypeBadge = (type) => {
+  const getLeaveBadge = (type) => {
+    const baseStyle = {
+      fontWeight: "500",
+      fontSize: "0.7rem",
+      padding: "4px 12px",
+      borderRadius: "50px",
+      display: "inline-block",
+      whiteSpace: "nowrap",
+    };
+
     switch (type) {
       case "Sick Leave":
         return (
-          <span className="badge px-3 py-1 rounded bg-danger text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#155724",
+              backgroundColor: "#d4edda", // light green
+            }}
+          >
             Sick Leave
           </span>
         );
+
       case "Casual Leave":
         return (
-          <span className="badge px-3 py-1 rounded bg-primary text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#004085",
+              backgroundColor: "#d6e9f9", // soft sky blue
+            }}
+          >
             Casual Leave
           </span>
         );
+
       case "Emergency Leave":
         return (
-          <span className="badge px-3 py-1 rounded bg-warning text-dark">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#721c24",
+              backgroundColor: "#f8d7da", // soft red
+            }}
+          >
             Emergency Leave
           </span>
         );
       default:
         return (
-          <span className="badge px-3 py-1 rounded bg-secondary text-white">
+          <span
+            style={{
+              ...baseStyle,
+              color: "#383d41",
+              backgroundColor: "#e2e3e5",
+            }}
+          >
             Unknown
           </span>
         );
@@ -89,26 +124,22 @@ const LeaveApplication = () => {
           }
         />
         <div className="card shadow-sm border-0">
-          <div className="card-header bg-white border-bottom">
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">
-                <FileText size={20} className="text-primary mr-2" />
-                Application from {application?.employeeName || "Employee"}
-              </h5>
-              <div className="d-flex align-items-center">
-                <span className="badge px-3 py-1 rounded bg-light text-dark mr-3">
-                  Applied on: {application?.appliedDate}
-                </span>
-                <button
-                  className="btn btn-light btn-sm ml-auto"
-                  onClick={handleClose}
-                  title="Close"
-                >
-                  <i className="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </div>
+  <div className="card-header bg-white border-bottom">
+    <div className="d-flex align-items-center w-100">
+      <h5 className="mb-0">
+        <FileText size={20} className="text-primary mr-2" />
+        Application Applied on: {application?.appliedDate || "N/A"}
+      </h5>
+      <button
+        className="btn btn-light btn-sm ml-auto"
+        onClick={handleClose}
+        title="Close"
+      >
+        <i className="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
 
           <div className="card-body">
             <div className="row">
@@ -116,25 +147,25 @@ const LeaveApplication = () => {
                 <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   <FileText size={18} className="text-primary mr-4" />
                   <div>
-                    <div className="text-muted small">Title</div>
+                    <div className="text-dark small">Title</div>
                     <div className="fw-semibold">{application?.title}</div>
                   </div>
                 </div>
 
-                <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
+                {/* <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   <User size={18} className="text-primary mr-4" />
                   <div>
                     <div className="text-muted small">User</div>
                     <div className="fw-semibold">Employee</div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
-                  <Calendar size={18} className="text-primary mr-4" />
+                  <Calendar size={18} className="text-primary mr-4 " />
                   <div>
-                    <div className="text-muted small">Leave Type</div>
+                    <div className="text-dark small">Leave Type</div>
                     <div className="fw-semibold">
-                      {getTypeBadge(application?.type)}
+                      {getLeaveBadge(application?.type)}
                     </div>
                   </div>
                 </div>
@@ -142,7 +173,7 @@ const LeaveApplication = () => {
                 <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   <Clock size={18} className="text-primary mr-4" />
                   <div>
-                    <div className="text-muted small">Duration</div>
+                    <div className="text-dark small">Duration</div>
                     <div className="fw-semibold">
                       {application?.period} day(s)
                     </div>
@@ -154,7 +185,7 @@ const LeaveApplication = () => {
                 <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   <Calendar size={18} className="text-primary mr-4" />
                   <div>
-                    <div className="text-muted small">Start Date</div>
+                    <div className="text-dark small">Start Date</div>
                     <div className="fw-semibold">{application?.startDate}</div>
                   </div>
                 </div>
@@ -162,12 +193,12 @@ const LeaveApplication = () => {
                 <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   <Calendar size={18} className="text-primary mr-4" />
                   <div>
-                    <div className="text-muted small">End Date</div>
+                    <div className="text-dark small">End Date</div>
                     <div className="fw-semibold">{application?.endDate}</div>
                   </div>
                 </div>
 
-                <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
+                {/* <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   <Calendar size={18} className="text-primary mr-4" />
                   <div>
                     <div className="text-muted small">Applied Date</div>
@@ -175,12 +206,12 @@ const LeaveApplication = () => {
                       {application?.appliedDate}
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
                   {getStatusIcon(application?.adminResponse)}
                   <div>
-                    <div className="text-muted small">Status</div>
+                    <div className="text-dark small">Status</div>
                     <div
                       className={`fw-semibold ${
                         application?.adminResponse === "Approved"

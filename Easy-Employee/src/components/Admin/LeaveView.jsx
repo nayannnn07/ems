@@ -70,29 +70,128 @@ const LeaveView = () => {
   const hoverColor = "#3a2d97";
 
   // Function to get the badge color based on the leave type
-  const getLeaveTypeBadge = (type) => {
+  const getLeaveBadge = (type) => {
+    const baseStyle = {
+      fontWeight: "500",
+      fontSize: "0.85rem",
+      padding: "4px 12px",
+      borderRadius: "50px",
+      display: "inline-block",
+      whiteSpace: "nowrap",
+    };
+
     switch (type) {
       case "Sick Leave":
-        return "bg-danger text-white"; // Red for Sick leave
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#155724",
+              backgroundColor: "#d4edda", // light green
+            }}
+          >
+            Sick Leave
+          </span>
+        );
+
       case "Casual Leave":
-        return "bg-primary text-white"; // Blue for Casual leave
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#004085",
+              backgroundColor: "#d6e9f9", // soft sky blue
+            }}
+          >
+            Casual Leave
+          </span>
+        );
+
       case "Emergency Leave":
-        return "bg-warning text-dark"; // Yellow for Emergency leave
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#721c24",
+              backgroundColor: "#f8d7da", // soft red
+            }}
+          >
+            Emergency Leave
+          </span>
+        );
       default:
-        return "bg-secondary text-white"; // Default color for undefined types
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#383d41",
+              backgroundColor: "#e2e3e5",
+            }}
+          >
+            Unknown
+          </span>
+        );
     }
   };
 
   const getStatusBadge = (status) => {
+    const baseStyle = {
+      fontWeight: "bold",
+      fontSize: "1rem",
+      padding: "4px 8px",
+      borderRadius: "4px",
+      display: "inline-block",
+    };
+
     switch (status) {
       case "Approved":
-        return "bg-success text-white";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "green",
+              backgroundColor: "#e6ffe6",
+            }}
+          >
+            Approved
+          </span>
+        );
       case "Rejected":
-        return "bg-danger text-white";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "red",
+              backgroundColor: "#ffe6e6",
+            }}
+          >
+            Rejected
+          </span>
+        );
       case "Pending":
-        return "bg-warning text-dark";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#0066cc",
+              backgroundColor: "#e6f0ff",
+            }}
+          >
+            Pending
+          </span>
+        );
       default:
-        return "bg-secondary text-white";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#555",
+              backgroundColor: "#f0f0f0",
+            }}
+          >
+            Unknown
+          </span>
+        );
     }
   };
 
@@ -246,29 +345,10 @@ const LeaveView = () => {
                     <td>{idx + 1}</td>
                     <td>{employeeMap?.[application.applicantID]?.[0]}</td>
                     <td>{employeeMap?.[application.applicantID]?.[1]}</td>
-                    <td>
-                      {/* Display the leave type with badge */}
-                      <span
-                        className={`badge px-3 py-1 rounded ${getLeaveTypeBadge(
-                          application.type
-                        )}`}
-                        style={{ color: "black" }}
-                      >
-                        {application.type}
-                      </span>
-                    </td>
+                    <td>{getLeaveBadge(application.type)}</td>
                     <td>{application.title}</td>
                     <td>{application.appliedDate}</td>
-                    <td>
-                      {/* Display the status with badge */}
-                      <span
-                        className={`badge px-3 py-1 rounded ${getStatusBadge(
-                          application.adminResponse
-                        )}`}
-                      >
-                        {application.adminResponse}
-                      </span>
-                    </td>
+                    <td>{getStatusBadge(application.adminResponse)}</td>
                   </tr>
                 ))}
               </tbody>

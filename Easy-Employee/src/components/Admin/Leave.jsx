@@ -66,19 +66,69 @@ const Leave = () => {
     }
   };
 
-  const getLeaveTypeBadge = (type) => {
+  const getLeaveBadge = (type) => {
+    const baseStyle = {
+      fontWeight: "500",
+      fontSize: "0.7rem",
+      padding: "4px 12px",
+      borderRadius: "50px",
+      display: "inline-block",
+      whiteSpace: "nowrap",
+    };
+
     switch (type) {
       case "Sick Leave":
-        return "bg-danger text-white";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#155724",
+              backgroundColor: "#d4edda", // light green
+            }}
+          >
+            Sick Leave
+          </span>
+        );
+
       case "Casual Leave":
-        return "bg-primary text-white";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#004085",
+              backgroundColor: "#d6e9f9", // soft sky blue
+            }}
+          >
+            Casual Leave
+          </span>
+        );
+
       case "Emergency Leave":
-        return "bg-warning text-dark";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#721c24",
+              backgroundColor: "#f8d7da", // soft red
+            }}
+          >
+            Emergency Leave
+          </span>
+        );
       default:
-        return "bg-secondary text-white";
+        return (
+          <span
+            style={{
+              ...baseStyle,
+              color: "#383d41",
+              backgroundColor: "#e2e3e5",
+            }}
+          >
+            Unknown
+          </span>
+        );
     }
   };
-
   const handleClose = () => {
     history.push("/leaves");
   };
@@ -88,38 +138,23 @@ const Leave = () => {
       <section className="section">
         <HeaderSection
           title="Leave Application Details"
-          rightContent={
-            <div className="d-flex align-items-center">
-              <button
-                type="button"
-                className="btn btn-light btn-sm mr-2"
-                onClick={handleClose}
-              >
-                <ChevronLeft size={16} className="mr-1" />
-                Back to Leaves
-              </button>
-              {/* Added X button */}
-              <button
-                type="button"
-                className="btn btn-light btn-sm"
-                onClick={handleClose}
-              >
-                <XCircle size={16} className="mr-1 text-danger" />
-              </button>
-            </div>
-          }
+        
         />
 
         <div className="card shadow-sm border-0">
           <div className="card-header bg-white border-bottom">
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 className="mb-0 fw-bold">
+          <div className="d-flex align-items-center w-100">
+              <h5 className="mb-0">
                 <FileText size={20} className="text-primary mr-2" />
-                Application from {application?.employeeName || "Employee"}
+                Application Applied on {application?.appliedDate || "N/A"}
               </h5>
-              <span className="badge bg-light text-dark">
-                Applied on: {application?.appliedDate}
-              </span>
+              <button
+        className="btn btn-light btn-sm ml-auto"
+        onClick={handleClose}
+        title="Close"
+      >
+        <i className="fas fa-times"></i>
+      </button>
             </div>
           </div>
 
@@ -136,29 +171,17 @@ const Leave = () => {
                     </div>
                   </div>
 
-                  <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-                    <User size={18} className="text-primary mr-4" />
-                    <div>
-                      <div className="text-dark small fw-bold">User</div>
-                      <div className="fw-semibold">Employee</div>
-                    </div>
-                  </div>
+                 
 
-                  <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-                    <Calendar size={18} className="text-primary mr-4" />
-                    <div>
-                      <div className="text-dark small fw-bold">Leave Type</div>
-                      <div className="fw-semibold">
-                        <span
-                          className={`badge ${getLeaveTypeBadge(
-                            application?.type
-                          )} px-3 py-1 rounded`}
-                        >
-                          {application?.type}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  <div className="bg-light rounded p-3 mb-3 d-flex align-items-center">
+                                    <Calendar size={18} className="text-primary mr-4 " />
+                                    <div>
+                                      <div className="text-dark small">Leave Type</div>
+                                      <div className="fw-semibold">
+                                        {getLeaveBadge(application?.type)}
+                                      </div>
+                                    </div>
+                                  </div>
 
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Clock size={18} className="text-primary mr-4" />
@@ -191,17 +214,7 @@ const Leave = () => {
                     </div>
                   </div>
 
-                  <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-                    <Calendar size={18} className="text-primary mr-4" />
-                    <div>
-                      <div className="text-dark small fw-bold">
-                        Applied Date
-                      </div>
-                      <div className="fw-semibold">
-                        {application?.appliedDate}
-                      </div>
-                    </div>
-                  </div>
+                 
 
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     {getStatusIcon(application?.adminResponse)}

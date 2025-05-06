@@ -18,7 +18,7 @@ const RowAdmin = ({ index, data }) => {
         </div>
       </td>
       <td>
-        <NavLink to={`/admin/${data.id}`} className="btn btn-secondary">
+        <NavLink to={`/admin/${data.id}`} className="btn btn-primary">
           Detail
         </NavLink>
       </td>

@@ -37,7 +37,7 @@ const UserTeams = () => {
               <div className="card">
                 <div className="card-header">
                   <h4 style={{ fontSize: "24px", fontWeight: 700 }}>
-                    All Teams
+                    Team Assigned
                   </h4>
                 </div>
                 <div className="card-body p-0">

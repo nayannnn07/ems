@@ -179,7 +179,7 @@ const EditUser = () => {
 
       <div className="main-content">
         <section className="section">
-          <HeaderSection title="Salary Details" />
+          <HeaderSection title="User Update Form" />
           <div className="card"></div>
 
           <div className="card">

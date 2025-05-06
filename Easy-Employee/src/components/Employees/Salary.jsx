@@ -125,71 +125,65 @@ const Salary = () => {
                   <h5 className="mb-0">Employee Information</h5>
                 </div>
                 <div className="card-body">
-                  <div className="text-center mb-4">
-                    <div className="avatar mb-3">
+                  <div className="text-center mb-3">
+                    <div
+                      className="d-flex justify-content-center align-items-center"
+                      style={{ height: "100px" }}
+                    >
                       <div
-                        className="avatar-initial rounded-circle bg-light-primary d-flex justify-content-center align-items-center"
-                        style={{ width: "45px", height: "40px" }}
+                        className="rounded-circle d-flex justify-content-center align-items-center"
+                        style={{
+                          width: "70px", // Slightly increased width for better visibility
+                          height: "70px", // Increased height for better visibility
+                          backgroundColor: "#1c144c", // A more vibrant primary color background
+                          color: "#fff", // White text color for contrast
+                          fontSize: "2rem", // Larger font size for better visibility
+                          fontWeight: "600", // Semi-bold text for emphasis
+                          boxShadow: "0 6px 15px rgba(0, 0, 0, 0.1)", // Soft shadow for depth
+                          border: "2px solid #fff", // White border for a clean look
+                        }}
                       >
-                        <span className="fs-3">{user.name.charAt(0)}</span>
+                        <span style={{ lineHeight: "1" }}>
+                          {user.name.charAt(0)}
+                        </span>
                       </div>
                     </div>
+
                     <h5 className="mb-1">{user.name}</h5>
                   </div>
 
                   <div className="employee-details">
-                    <div className="detail-item d-flex py-3 border-bottom">
-                      <div className="icon me-3">
-                        <i
-                          className="fas fa-envelope text-primary"
-                          style={{ fontSize: "18px" }}
-                        ></i>
-                      </div>
-                      <div className="d-flex justify-content-between w-100">
-                        <div>
-                          <div className="small text-muted m-1"> Email</div>
-                          <div className="fw-bold">{user.email}</div>
-                        </div>
-                      </div>
-                    </div>
+  <div className="detail-item d-flex py-3 border-bottom my-3" style={{ padding: "12px 20px", borderBottom: "1px solid #e0e0e0", borderRadius: "8px", transition: "all 0.3s ease", boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", alignItems: "center" }}>
+    <div className="icon me-4 mr-4" style={{ width: "40px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f2f2f2", borderRadius: "50%" }}>
+      <i className="fas fa-envelope text-primary" style={{ fontSize: "20px" }}></i>
+    </div>
+    <div className="d-flex flex-column w-100">
+      <div className="small text-muted" style={{ fontSize: "14px", color: "#888" }}>Email</div>
+      <div className="fw-bold" style={{ fontSize: "16px", color: "#333" }}>{user.email}</div>
+    </div>
+  </div>
 
-                    <div className="detail-item d-flex py-3 border-bottom">
-                      <div className="icon me-3">
-                        <i
-                          className="fas fa-phone text-primary"
-                          style={{ fontSize: "18px" }}
-                        ></i>
-                      </div>
-                      <div className="d-flex justify-content-between w-100">
-                        <div>
-                          <div className="small text-muted m-1">Mobile</div>
-                          <div className="fw-bold">{user.mobile}</div>
-                        </div>
-                        <button
-                          className="btn btn-link text-primary"
-                          onClick={() =>
-                            navigator.clipboard.writeText(user.mobile)
-                          }
-                          title="Click to copy mobile number"
-                        >
-                          <i className="fas fa-copy"></i>
-                        </button>
-                      </div>
-                    </div>
+  <div className="detail-item d-flex py-3 border-bottom my-3" style={{ padding: "12px 20px", borderBottom: "1px solid #e0e0e0", borderRadius: "8px", transition: "all 0.3s ease", boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", alignItems: "center" }}>
+    <div className="icon me-4 mr-4" style={{ width: "40px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f2f2f2", borderRadius: "50%" }}>
+      <i className="fas fa-phone text-primary" style={{ fontSize: "20px" }}></i>
+    </div>
+    <div className="d-flex flex-column w-100">
+      <div className="small text-muted" style={{ fontSize: "14px", color: "#888" }}>Mobile</div>
+      <div className="fw-bold" style={{ fontSize: "16px", color: "#333" }}>{user.mobile}</div>
+    </div>
+  </div>
 
-                    <div className="detail-item d-flex py-3">
-                      <div className="icon me-3">
-                        <i
-                          className="fas fa-map-marker-alt text-primary"
-                          style={{ fontSize: "18px" }}
-                        ></i>
-                      </div>
-                      <div>
-                        <div className="small text-muted m-1">Address</div>
-                        <div className="fw-bold">{user.address}</div>
-                      </div>
-                    </div>
-                  </div>
+  <div className="detail-item d-flex py-3 my-3" style={{ padding: "12px 20px", borderRadius: "8px", transition: "all 0.3s ease", boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", alignItems: "center" }}>
+    <div className="icon me-4 mr-4" style={{ width: "40px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f2f2f2", borderRadius: "50%" }}>
+      <i className="fas fa-map-marker-alt text-primary" style={{ fontSize: "20px" }}></i>
+    </div>
+    <div className="d-flex flex-column w-100">
+      <div className="small text-muted" style={{ fontSize: "14px", color: "#888" }}>Address</div>
+      <div className="fw-bold" style={{ fontSize: "16px", color: "#333" }}>{user.address}</div>
+    </div>
+  </div>
+</div>
+
                 </div>
               </div>
             </div>
@@ -337,8 +331,8 @@ const Salary = () => {
                           "0 4px 8px rgba(0, 0, 0, 0.1)";
                       }}
                     >
-                      <i className="fas fa-file-download me-2"></i>
-                      Download Salary Slip
+                      <i className="fas fa-download me-2"></i>
+                      &nbsp;Download Salary Slip
                     </button>
                   </div>
                 </div>

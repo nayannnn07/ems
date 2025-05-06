@@ -26,7 +26,7 @@ const RowLeader = ({ index, data }) => {
         )}
       </td>
       <td>
-        <NavLink to={`/employee/${data.id}`} className="btn btn-secondary">
+        <NavLink to={`/employee/${data.id}`} className="btn btn-primary">
           Detail
         </NavLink>
       </td>

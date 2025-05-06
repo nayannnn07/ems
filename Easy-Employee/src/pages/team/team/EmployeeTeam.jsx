@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getFreeEmployees,
@@ -35,6 +35,10 @@ const EmployeeTeam = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLeaderModal, setShowLeaderModal] = useState(false);
   const [showLeadersModal, setShowLeadersModal] = useState(false);
+  const history = useHistory();
+  const handleClose = () => {
+    history.push("/userTeams");
+  };
 
   useEffect(() => {
     (async () => {
@@ -91,10 +95,14 @@ const EmployeeTeam = () => {
               <HeaderSection title="Team Details" />
 
               <div className="d-flex justify-content-between align-items-center mb-4">
-                <h5 className="text-primary mb-0">
-                  <Users size={20} className="mr-2" />
-                </h5>
-                <div className="d-flex" style={{ gap: "12px" }}>
+                <button
+                  className="btn btn-light btn-sm ml-auto"
+                  onClick={handleClose}
+                  title="Close"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+                {/* <div className="d-flex" style={{ gap: "12px" }}>
                   <NavLink
                     to={`/editteam/${id}`}
                     className="btn btn-light btn-sm"
@@ -109,7 +117,7 @@ const EmployeeTeam = () => {
                     <Plus size={16} className="mr-1" />
                     Add Member
                   </button>
-                </div>
+                </div> */}
               </div>
 
               <div className="row">
@@ -121,7 +129,10 @@ const EmployeeTeam = () => {
                           className="bg-primary bg-opacity-10 p-3 rounded-circle d-flex justify-content-center align-items-center"
                           style={{ width: "70px", height: "70px" }}
                         >
-                          <User size={30} className="text-primary" />
+                          <Users
+                            size={25}
+                            className="mr-2 text-white text-center ml-1"
+                          />
                         </div>
                       </div>
                       <h5 className="mb-1">Total Employees</h5>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
-import { User, Mail, Phone, Badge, MapPin, Edit, Shield } from "lucide-react";
+import { User, Mail, Phone, CircleDot, MapPin, Edit, Shield, UserCheck } from "lucide-react";
 import { getUser } from "../../http";
 import HeaderSection from "../../components/HeaderSection";
 
@@ -29,23 +29,40 @@ const Employee = () => {
   }, [id]);
 
   const StatusBadge = ({ status }) => {
-    const getStatusColor = () => {
-      switch (status?.toLowerCase()) {
+    const normalizedStatus = status?.toLowerCase();
+
+    const getStatusClass = () => {
+      switch (normalizedStatus) {
         case "active":
-          return "bg-green-100 text-green-800";
+          return "bg-success text-white";
         case "inactive":
-          return "bg-red-100 text-red-800";
+          return "bg-danger text-white";
         case "pending":
-          return "bg-yellow-100 text-yellow-800";
+          return "bg-warning text-dark";
         default:
-          return "bg-gray-100 text-gray-800";
+          return "bg-secondary text-white";
+      }
+    };
+
+    const getIconColor = () => {
+      switch (normalizedStatus) {
+        case "active":
+          return "text-white";
+        case "inactive":
+          return "text-white";
+        case "pending":
+          return "text-dark";
+        default:
+          return "text-white";
       }
     };
 
     return (
       <span
-        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor()}`}
+        className={`d-inline-flex align-items-center px-3 py-1 rounded-pill fw-semibold text-uppercase ${getStatusClass()}`}
+        style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}
       >
+        <CircleDot size={12} className={`mr-1 ${getIconColor()}`} />
         {status}
       </span>
     );
@@ -54,21 +71,49 @@ const Employee = () => {
   return (
     <div className="main-content">
       <section className="section">
-        <HeaderSection title="Employee Detail" />
+        <HeaderSection title="Details" />
 
         <div className="card shadow-sm border-0">
           <div className="card-body p-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h5 className="text-primary mb-0">
                 <User size={20} className="mr-2" />
-                Employee Information
+                User Information
               </h5>
               <NavLink
                 to={`/edituser/${id}`}
-                className="btn btn-light btn-sm d-flex align-items-center gap-1"
+                className="btn btn-sm d-flex align-items-center gap-2 mr-3 shadow-sm"
+                style={{
+                  transition: "all 0.3s ease",
+                  fontWeight: "500",
+                  borderRadius: "6px",
+                  backgroundColor: "#e3eaef",
+                  color: "#000",
+                  padding: "6px 12px",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#d4dee5";
+                  e.currentTarget.style.transform = "scale(1.03)";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 10px rgba(0,0,0,0.1)";
+                  e.currentTarget.querySelector("svg").style.color = "#ff9800"; // brighter orange
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "#e3eaef";
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow =
+                    "0 2px 4px rgba(0,0,0,0.05)";
+                  e.currentTarget.querySelector("svg").style.color = "orange";
+                }}
               >
-                <Edit size={16} />
-                <span>Edit</span>
+                <span>Edit User&nbsp;</span>
+                <Edit
+                  size={16}
+                  style={{
+                    color: "orange",
+                    transition: "color 0.3s ease, transform 0.3s ease",
+                  }}
+                />
               </NavLink>
             </div>
 
@@ -91,20 +136,22 @@ const Employee = () => {
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
                     <Shield size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">User Role</div>
+                    <div className="text-muted small">Status</div>
                       <div className="fw-semibold">
-                        {user?.type || "Employee"}
+                        <StatusBadge status={user?.status || "Active"} />
                       </div>
                     </div>
                   </div>
 
                   {/* Third Box: Status */}
                   <div className="d-flex align-items-center bg-light rounded p-3 mb-3">
-                    <Shield size={18} className="text-primary mr-4" />
+                    <UserCheck size={18} className="text-primary mr-4" />
                     <div>
-                      <div className="text-muted small">Status</div>
+                      
+
+                      <div className="text-muted small">User Role</div>
                       <div className="fw-semibold">
-                        <StatusBadge status={user?.status || "Active"} />
+                        {user?.type || "Employee"}
                       </div>
                     </div>
                   </div>

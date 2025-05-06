@@ -116,7 +116,7 @@ const Team = () => {
 
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h5 className="text-primary mb-0">
-                  <Users size={20} className="mr-2" />
+                  {/* <Users size={20} className="mr-2" /> */}
                 </h5>
                 <div className="d-flex" style={{ gap: "12px" }}>
                   <NavLink
@@ -142,7 +142,10 @@ const Team = () => {
                     <div className="card-body text-center">
                       <div className="d-flex justify-content-center mb-3">
                         <div className="bg-primary bg-opacity-10 p-3 rounded-circle">
-                          <User size={24} className="text-primary" />
+                          <Users
+                            size={25}
+                            className="text-white text-center "
+                          />
                         </div>
                       </div>
                       <h5 className="mb-1">Total Employees</h5>
@@ -181,7 +184,7 @@ const Team = () => {
                             <div className="fw-semibold">
                               {team.leader ? (
                                 <button
-                                  className="btn btn-sm btn-outline-primary"
+                                  className="btn btn-sm btn-primary"
                                   onClick={modalLeaderAction}
                                 >
                                   {team.leader.name}
