@@ -11,7 +11,6 @@ const LeadersModal = ({close}) =>
         <thead>
           <tr>
             <th>#</th>
-            <th>Image</th>
             <th>Name</th>
             <th>Email</th>
             <th>Mobile</th>

@@ -41,10 +41,10 @@ const Attendance = () => {
     const isWeekend = now.getDay() === 0 || now.getDay() === 6;
 
     const startTime = new Date();
-    startTime.setHours(8, 30, 0, 0);
+    startTime.setHours(8, 0, 0, 0); //8.30
 
     const endTime = new Date();
-    endTime.setHours(9, 30, 0, 0);
+    endTime.setHours(9, 30, 0, 0); //9.30
 
     const isWithinTimeWindow = now >= startTime && now <= endTime;
 
